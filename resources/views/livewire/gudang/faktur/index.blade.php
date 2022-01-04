@@ -99,10 +99,17 @@
     <script>
         $(function() {
             $('input[name="daterange"]').daterangepicker({
-                opens: 'left'
+                opens: 'left',
+                "timePicker": true,
+                "timePicker24Hour": true,
+                startDate: moment().startOf('day'),
+                endDate: moment().endOf('day'),
+                locale: {
+                    format: 'DD-MM-YYYY HH:mm'
+                },
             }, function(start, end, label) {
-                @this.start = start.format('YYYY-MM-DD');
-                @this.end = end.format('YYYY-MM-DD');
+                @this.start = start.format('YYYY-MM-DD HH:mm');
+                @this.end = end.format('YYYY-MM-DD HH:mm');
             });
         });
     </script>
