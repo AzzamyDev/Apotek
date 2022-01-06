@@ -13,7 +13,7 @@ use App\Http\Livewire\gudang\Supplier\Index as SupplierIndex;
 use App\Http\Livewire\gudang\Faktur\Index as FakturIndex;
 use App\Http\Livewire\gudang\Faktur\Form as FakturForm;
 use App\Http\Livewire\gudang\Faktur\Detail as FakturDetail;
-use App\Http\Livewire\Gudang\Stok;
+use App\Http\Livewire\gudang\Stok;
 use App\Http\Livewire\transaksi\NonResep\Form as NonResepForm;
 use App\Http\Livewire\transaksi\NonResep\Laporan as LaporanNonResep;
 use App\Http\Livewire\transaksi\NonResep\Detail as DetailNonResep;
