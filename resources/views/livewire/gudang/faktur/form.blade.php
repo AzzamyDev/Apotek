@@ -331,7 +331,7 @@
                                     @if (count($temps) > 0)
                                         @foreach ($temps as $item)
                                             <tr>
-                                                <td>{{ $item->nama_product }}</td>
+                                                <td>{{ $item->nama_barang }}</td>
                                                 <td>{{ $item->batch }}</td>
                                                 <td>{{ $item->expired }}</td>
                                                 <td>{{ $item->product->satuan }}</td>

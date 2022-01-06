@@ -139,7 +139,7 @@ class Form extends Component
 
         OrderInTemp::create([
             'product_id' => $this->product->id,
-            'nama_product' => $this->product->name,
+            'nama_barang' => $this->product->name,
             'batch' => $this->batch,
             'expired' => $this->expired,
             'harga_beli' => $this->harga_beli,
