@@ -17,7 +17,7 @@ class CreateOrderInsTable extends Migration
             $table->id();
             $table->integer('faktur_id');
             $table->integer('product_id');
-            $table->string('nama_product');
+            $table->string('nama_barang');
             $table->string('batch');
             $table->date('expired');
             $table->bigInteger('harga_beli');
