@@ -13,6 +13,7 @@ use App\Http\Livewire\gudang\Supplier\Index as SupplierIndex;
 use App\Http\Livewire\gudang\Faktur\Index as FakturIndex;
 use App\Http\Livewire\gudang\Faktur\Form as FakturForm;
 use App\Http\Livewire\gudang\Faktur\Detail as FakturDetail;
+use App\Http\Livewire\Gudang\Stok;
 use App\Http\Livewire\transaksi\NonResep\Form as NonResepForm;
 use App\Http\Livewire\transaksi\NonResep\Laporan as LaporanNonResep;
 use App\Http\Livewire\transaksi\NonResep\Detail as DetailNonResep;
@@ -50,10 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::get('faktur/form', FakturForm::class)->name('faktur-form');
     Route::get('faktur/{id}', FakturDetail::class)->name('faktur-detail');
 
-    //transaksi
+    //Apotek
     Route::get('transaksi/non-resep', NonResepForm::class)->name('non-resep');
     Route::get('transaksi/resep', NonResepForm::class)->name('resep');
     Route::get('transaksi/list', ListTransaksi::class)->name('list-transaksi');
     Route::get('transaksi/laporan', LaporanNonResep::class)->name('laporan-transaksi');
     Route::get('transaksi/laporan/{id}', DetailNonResep::class)->name('detail-transaksi');
+    Route::get('stok', Stok::class)->name('stok');
 });

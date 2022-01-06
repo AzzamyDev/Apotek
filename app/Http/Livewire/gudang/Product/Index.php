@@ -24,7 +24,7 @@ class Index extends Component
         if (strlen($this->search) >= 4) {
             $cari = $this->search;
         }
-        $products = Product::where('name', 'like', '%' . $cari . '%')->paginate(50);
+        $products = Product::where('name', 'like', '%' . $cari . '%')->paginate(20);
         return view('livewire.gudang.product.index')->with(compact('products'));
     }
     public function destroy($id)

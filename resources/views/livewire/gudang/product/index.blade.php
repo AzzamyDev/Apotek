@@ -33,11 +33,11 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table table-striped table-md">
+                        <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
                                     <th class="text-center">ID</th>
-                                    <th style="min-width: 170px">Nama Barang</th>
+                                    <th style="min-width: 160px">Nama Barang</th>
                                     <th>Golongan Obat</th>
                                     <th>Lokasi Rak</th>
                                     <th>Harga Beli</th>
@@ -53,7 +53,7 @@
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->golongan }}</td>
                                             <td>{{ $item->lokasi }}</td>
-                                            <td>{{ $item->harga }}</td>
+                                            <td>@rupiah($item->harga)</td>
                                             <td class="text-center">
                                                 <div class="cform-check form-switch">
                                                     <input {{ $item->status ? 'checked' : '' }} type="checkbox"

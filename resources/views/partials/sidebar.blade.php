@@ -44,7 +44,7 @@
 
             @hasanyrole('karyawan|admin')
                 {{-- Transaksi --}}
-                <li class="menu-header">Transaksi</li>
+                <li class="menu-header">Apotek</li>
                 <li class="{{ Route::is('resep') ? 'active' : '' }}"><a class="nav-link"
                         href="{{ route('resep') }}">
                         <i class="fas fa-prescription"></i>
@@ -64,6 +64,11 @@
                         <li><a class="nav-link" href="{{ route('list-transaksi') }}">Detail Laporan Penjualan</a>
                         </li>
                     </ul>
+                </li>
+                <li class="{{ Route::is('stok') ? 'active' : '' }}"><a class="nav-link"
+                        href="{{ route('stok') }}">
+                        <i class="fas fa-boxes"></i>
+                        <span>Stok Obat</span></a>
                 </li>
                 {{-- <li class="{{ Route::is('laporan-transaksi') ? 'active' : '' }}"><a class="nav-link"
                         href="{{ route('laporan-transaksi') }}">
@@ -92,7 +97,7 @@
         </ul>
 
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-            <a href=" https://api.whatsapp.com/send?phone=+628214651837"
+            <a href=" https://api.whatsapp.com/send?phone=+6282214651837"
                 class="btn btn-primary btn-lg btn-block btn-icon-split">
                 <i class="fas fa-whatsapp"></i> Hubungi Developer
             </a>

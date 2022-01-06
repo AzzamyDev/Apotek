@@ -15,4 +15,8 @@ class Product extends Model
     {
         return $this->belongsTo(JenisHarga::class, 'tipe_harga_id');
     }
+    public function tipeBarang()
+    {
+        return $this->belongsTo(TipeBarang::class, 'tipe_barang_id');
+    }
 }

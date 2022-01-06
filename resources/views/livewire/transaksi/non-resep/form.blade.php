@@ -274,7 +274,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="height: 500px;max-height: 500px" class="table-responsive">
+                        <div style="height: 350px" class=" table-responsive">
                             <table class="table table-hover table-md text-nowrap">
                                 <thead>
                                     <tr>

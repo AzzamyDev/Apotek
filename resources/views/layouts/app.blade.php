@@ -41,7 +41,7 @@
 </head>
 {{-- {{ Route::is(['home', 'faktur', 'faktur-form']) ? 'sidebar-mini' : '' }} --}}
 
-<body class="sidebar-mini">
+<body class="{{ Route::is(['faktur', 'faktur-form', 'non-resep', 'resep']) ? 'sidebar-mini' : '' }}">
     <div id="app">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>

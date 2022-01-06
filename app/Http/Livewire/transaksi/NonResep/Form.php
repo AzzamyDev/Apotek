@@ -71,12 +71,18 @@ class Form extends Component
             $end =  Carbon::createFromFormat('h:i A', $item->end);
             if ($item->end == '07:00 AM') {
                 $start = Carbon::createFromFormat('h:i A', '09:00 PM');
+
+                if ($now->format('A') == 'PM') {
+                    $end->addDay(1);
+                } else {
+                    $start->addDay(-1);
+                }
             }
-            if ($now->isBetween($start, $end->addDay(1))) {
+
+            if ($now->isBetween($start, $end)) {
                 $this->shift = $item->name;
             }
         }
-
         $this->no_transaksi = substr(strtoupper(uniqid()), -5) . '-' . rand(1000, 9999);
         $this->dispatchBrowserEvent('focus');
     }

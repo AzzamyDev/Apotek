@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table table-md table-hover">
+                        <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>

@@ -4,6 +4,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="{{ asset('node_modules/izitoast/dist/css/iziToast.min.css') }}">
     <!-- Page Specific JS File -->
+    <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}">
 
 @endpush
 <section class="section">
@@ -43,7 +45,7 @@
                 </div>
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table table-striped table-md">
+                        <table class="table table-striped table-sm">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -58,27 +60,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (count($fakturs) > 0)
-                                    @foreach ($fakturs as $item)
-                                        <tr>
-                                            <td class="text-center">{{ $loop->index + 1 }}</td>
-                                            <td>{{ $item->supplier->name }}</td>
-                                            <td>{{ $item->no_faktur }}</td>
-                                            <td>{{ $item->no_sp }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($item->tanggal)) }}</td>
-                                            <td>@rupiah($item->total_real)</td>
-                                            <td>{{ $item->keterangan != null ? $item->keterangan : '-' }}</td>
-                                            <td>{{ $item->items }}</td>
-                                            <td class="text-center">
-                                                <a data-turbolinks="false"
-                                                    href="{{ route('faktur-detail', $item->id) }}"
-                                                    class="btn btn-primary btn-sm btn-block">Detail</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <td colspan="9" class="text-center">Tidak ada data</td>
-                                @endif
+                                @foreach ($fakturs as $item)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->index + 1 }}</td>
+                                        <td>{{ $item->supplier->name }}</td>
+                                        <td>{{ $item->no_faktur }}</td>
+                                        <td>{{ $item->no_sp }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($item->tanggal)) }}</td>
+                                        <td>@rupiah($item->total_real)</td>
+                                        <td>{{ $item->keterangan != null ? $item->keterangan : '-' }}</td>
+                                        <td>{{ $item->items }}</td>
+                                        <td class="text-center">
+                                            <a data-turbolinks="false" href="{{ route('faktur-detail', $item->id) }}"
+                                                class="btn btn-primary btn-sm btn-block">Detail</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -133,9 +130,14 @@
 @endpush
 @push('custom_js')
     <!-- Page Specific JS File -->
+    <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
+
     <script src="{{ asset('node_modules/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
     <script src="{{ asset('node_modules/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('node_modules/selectric/public/jquery.selectric.min.js') }}"></script>
     <script src="{{ asset('assets/js/page/forms-advanced-forms.js') }}"></script>
+    <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
 @endpush
