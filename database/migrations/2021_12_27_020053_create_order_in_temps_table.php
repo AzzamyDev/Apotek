@@ -16,7 +16,7 @@ class CreateOrderInTempsTable extends Migration
         Schema::create('order_in_temps', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
-            $table->string('nama_product');
+            $table->string('nama_barang');
             $table->string('batch');
             $table->date('expired');
             $table->bigInteger('harga_beli');

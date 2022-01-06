@@ -1,3 +1,6 @@
+@push('toast-css')
+    <link rel="stylesheet" href="{{ asset('node_modules/izitoast/dist/css/iziToast.min.css') }}">
+@endpush
 <section class="section">
     <div class="section-header row g-2">
         <div class="col">
@@ -7,7 +10,16 @@
 
         </div>
     </div>
-
+    @error('stok')
+        <script>
+            show('{{ $message }}')
+        </script>
+    @enderror
+    @if (session()->has('message'))
+        <script>
+            success('{{ session('message') }}')
+        </script>
+    @endif
     <div class="section-body">
         <div class="container">
             <div class="section-title">Data Transaksi</div>
@@ -18,7 +30,7 @@
                             <h6>Tanggal</h6>
                         </div>
                         <div class="col-sm ">
-                            <h6 class="text-left">{{ $transaksi->created_at->format('d-m-Y') }}</h6>
+                            <h6 class="text-left">: {{ $transaksi->created_at->format('d-m-Y') }}</h6>
                         </div>
                     </div>
                     <div class="row">
@@ -26,7 +38,7 @@
                             <h6>Nomer Transaksi</h6>
                         </div>
                         <div class="col-sm ">
-                            <h6 class="text-left">{{ $transaksi->no_transaksi }}</h6>
+                            <h6 class="text-left">: {{ $transaksi->no_transaksi }}</h6>
                         </div>
                     </div>
                     <div class="row">
@@ -34,7 +46,7 @@
                             <h6>Tipe Transaksi</h6>
                         </div>
                         <div class="col-sm ">
-                            <h6 class="text-left">{{ $transaksi->tipe_transaksi }}</h6>
+                            <h6 class="text-left">: {{ $transaksi->tipe_transaksi }}</h6>
                         </div>
                     </div>
                     @if ($transaksi->tipe_transaksi == 'Halodoc')
@@ -43,7 +55,7 @@
                                 <h6>Customer</h6>
                             </div>
                             <div class="col-sm ">
-                                <h6 class="text-left">{{ $transaksi->pasien }}</h6>
+                                <h6 class="text-left">: {{ $transaksi->pasien }}</h6>
                             </div>
                         </div>
                     @endif
@@ -52,7 +64,7 @@
                             <h6>Cara Bayar</h6>
                         </div>
                         <div class="col-sm ">
-                            <h6 class="text-left">{{ $transaksi->tipe_bayar }}</h6>
+                            <h6 class="text-left">: {{ $transaksi->tipe_bayar }}</h6>
                         </div>
                     </div>
                     <div class="row">
@@ -60,7 +72,8 @@
                             <h6>Bayar Via</h6>
                         </div>
                         <div class="col-sm ">
-                            <h6 class="text-left">{{ $transaksi->bayar != null ? $transaksi->bayar : '-' }}</h6>
+                            <h6 class="text-left">: {{ $transaksi->bayar != null ? $transaksi->bayar : '-' }}
+                            </h6>
                         </div>
                     </div>
                     <div class="row">
@@ -68,7 +81,7 @@
                             <h6>Keterangan</h6>
                         </div>
                         <div class="col-sm ">
-                            <h6 class="text-left">{{ $transaksi->keterangan }}</h6>
+                            <h6 class="text-left">: {{ $transaksi->keterangan }}</h6>
                         </div>
                     </div>
                 </div>
@@ -80,12 +93,12 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="section-title">Data Barang</div>
-                    <div style="max-height: 300px" class="table-responsive">
-                        <table class="table table-hover table-md text-nowrap table-bordered">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-md text-nowrap text-dark table-bordered table-primary">
                             <thead>
                                 <tr>
                                     <th style="min-width: 50px">No</th>
-                                    <th style="min-width: 200px">Nama Obat</th>
+                                    <th style="min-width: 250px">Nama Obat</th>
                                     <th>Qty</th>
                                     <th>Harga</th>
                                     <th>Jenis Harga</th>
@@ -103,8 +116,28 @@
                                             <td>@rupiah( $item->harga_jual)</td>
                                             <td>{{ $item->jenisHarga->name }}</td>
                                             <td>@rupiah($item->sub_total)</td>
-                                            <td class="text-center">
-                                                <i style="cursor: pointer" class="fas fa-redo"> Retur</i>
+                                            <td class="text-center" style="width: 100px">
+                                                @if ($trx_id == $item->product_id && $edit)
+                                                    <div style="width: 150px">
+                                                        <label for="retur" class="form-label">Masukan Jumlah
+                                                            Retur</label>
+                                                        <input id="retur" wire:model.prevent='retur'
+                                                            class="form-control form-control-sm" type="number" min="0">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <button
+                                                                    class="mt-2 btn btn-sm btn-danger btn-block form-control form-control-sm"
+                                                                    wire:click='resetInput'>Batal</button>
+                                                            </div>
+                                                            <div class="col"><button wire:click='update'
+                                                                    class="mt-2 btn btn-sm btn-primary btn-block form-control form-control-sm">Simpan</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <button wire:click.prevent='edit({{ $item->product_id }})'
+                                                        class="btn btn-sm btn-danger">Retur</button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -118,7 +151,7 @@
                                         <h5>Total</h5>
                                     </td>
                                     <td>
-                                        <h5>@rupiah($transaksi->total_real)</h5>
+                                        <h5 class="text-center">@rupiah($transaksi->total)</h5>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -129,3 +162,29 @@
         </div>
     </div>
 </section>
+@push('toast')
+    <!-- Page Specific JS File -->
+    <script src="{{ asset('node_modules/izitoast/dist/js/iziToast.min.js') }}"></script>
+    <!-- JS Libraies -->
+    <script src="{{ asset('assets/js/page/modules-toastr.js') }}"></script>
+
+    <script>
+        function show(error) {
+            iziToast.warning({
+                message: error,
+                position: "topRight",
+            });
+            setInterval(() => {
+                Livewire.emit('resetError');
+            }, 2000);
+        }
+
+        function success(message) {
+            iziToast.success({
+                message: message,
+                position: "topRight",
+            });
+        }
+    </script>
+
+@endpush

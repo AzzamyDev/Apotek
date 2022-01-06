@@ -19,4 +19,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Dokter::class, 'dokter_id');
     }
+
+    public function order()
+    {
+        return $this->hasMany(OrderOut::class, 'transaksi_id');
+    }
 }

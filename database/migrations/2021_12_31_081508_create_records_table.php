@@ -20,6 +20,7 @@ class CreateRecordsTable extends Migration
             $table->enum('record', ['In', 'Out']);
             $table->string('no_faktur')->nullable();
             $table->string('no_transaksi')->nullable();
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

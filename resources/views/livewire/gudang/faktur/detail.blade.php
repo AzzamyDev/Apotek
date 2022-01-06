@@ -79,7 +79,7 @@
                 <div class="col-12">
                     <div class="section-title">Data Barang</div>
                     <div style="max-height: 300px" class="table-responsive">
-                        <table class="table table-hover table-md text-nowrap table-bordered">
+                        <table class="table table-hover table-md text-nowrap text-dark table-bordered table-primary">
                             <thead>
                                 <tr>
                                     <th style="min-width: 180px">Nama Obat</th>
@@ -96,7 +96,7 @@
                                 @if (count($lists) > 0)
                                     @foreach ($lists as $item)
                                         <tr>
-                                            <td>{{ $item->nama_product }}</td>
+                                            <td>{{ $item->nama_barang }}</td>
                                             <td>{{ $item->batch }}</td>
                                             <td>{{ $item->expired }}</td>
                                             <td>{{ $item->product->satuan }}</td>

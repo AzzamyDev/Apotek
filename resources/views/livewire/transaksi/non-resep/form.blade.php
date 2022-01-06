@@ -305,7 +305,17 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        <td colspan="10" class="text-center">Item masih kosong</td>
+                                        <tr style="height: 180px">
+                                            <td colspan="10" class="text-center pt-4">
+                                                <img src="{{ asset('assets/img/empty-cart.svg') }}" alt=""
+                                                    style="max-height: 180px">
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="10" class="text-center"><small>Keranjang Masih
+                                                    kosong</small></td>
+                                        </tr>
                                     @endif
                                 </tbody>
                             </table>

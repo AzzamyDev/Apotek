@@ -14,6 +14,7 @@ use App\Http\Livewire\Gudang\Faktur;
 use App\Http\Livewire\Transaksi\NonResep\Form as NonResepForm;
 use App\Http\Livewire\Transaksi\NonResep\Laporan as LaporanNonResep;
 use App\Http\Livewire\Transaksi\NonResep\Detail as DetailNonResep;
+use App\Http\Livewire\Transaksi\NonResep\ListTransaksi;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::middleware('auth')->group(function () {
     //transaksi
     Route::get('transaksi/non-resep', NonResepForm::class)->name('non-resep');
     Route::get('transaksi/resep', NonResepForm::class)->name('resep');
+    Route::get('transaksi/list', ListTransaksi::class)->name('list-transaksi');
     Route::get('transaksi/laporan', LaporanNonResep::class)->name('laporan-transaksi');
     Route::get('transaksi/laporan/{id}', DetailNonResep::class)->name('detail-transaksi');
 });

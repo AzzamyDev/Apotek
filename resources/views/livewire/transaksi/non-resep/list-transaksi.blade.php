@@ -10,15 +10,18 @@
 
     <div class="section-header row">
         <div class="col">
-            <h1>Laporan Penjualan</h1>
+            <h1>Detail Laporan Penjualan Non Resep</h1>
         </div>
         <div class="col-auto">
-            <input wire:model="cari" class="form-control" type="search" placeholder="Cari Transaksi"
-                aria-label="Search" data-width="250">
+            <select style="width: 150px" wire:model="cari" class="form-control">
+                <option selected value="">Semua</option>
+                <option value="Umum">Umum</option>
+                <option value="Halodoc">Halodoc</option>
+            </select>
         </div>
     </div>
     <div class="section-body">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row justify-content-center">
                 <div class="col-auto">
                     <h4 class="text-primary">Total : @rupiah($total)</h4>
@@ -44,29 +47,29 @@
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th>Tanggal</th>
-                                    <th>Nomer Transaksi</th>
                                     <th>Tipe Transaksi</th>
-                                    <th>Tipe Bayar</th>
-                                    <th>Customer</th>
-                                    <th>Total</th>
-                                    <th>Sift</th>
+                                    <th>Nama Barang</th>
+                                    <th>Harga Jual</th>
+                                    <th>Jenis Harga</th>
+                                    <th>Qty</th>
+                                    <th>Sub Total</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (count($transaksis) > 0)
+                                @if ($transaksis->count() > 0)
                                     @foreach ($transaksis as $item)
                                         <tr>
                                             <td class="text-center">{{ $loop->index + 1 }}</td>
                                             <td>{{ date('d-m-Y H:i', strtotime($item->created_at)) }}</td>
-                                            <td>{{ $item->no_transaksi }}</td>
                                             <td>{{ $item->tipe_transaksi }}</td>
-                                            <td>{{ $item->tipe_bayar }}</td>
-                                            <td>{{ $item->pasien == null ? '-' : $item->pasien }}</td>
-                                            <td>@rupiah($item->total)</td>
-                                            <td>Shift {{ $item->shift_id }}</td>
+                                            <td>{{ $item->nama_barang }}</td>
+                                            <td>@rupiah($item->harga_jual)</td>
+                                            <td>{{ $this->getJenisHarga($item->jenis_harga_id) }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>@rupiah($item->sub_total)</td>
                                             <td class="text-center">
-                                                <a href="{{ route('detail-transaksi', $item->id) }}"
+                                                <a href="{{ route('detail-transaksi', $item->transaksi_id) }}"
                                                     class="btn btn-primary btn-sm btn-block">Detail</a>
                                             </td>
                                         </tr>
@@ -82,7 +85,7 @@
         </div>
     </div>
     <div class="section-footer d-flex justify-content-center mt-3">
-        {{ $transaksis->links() }}
+        {{-- {{ $transaksis->links() }} --}}
     </div>
 </section>
 
@@ -97,14 +100,16 @@
                 opens: 'left',
                 "timePicker": true,
                 "timePicker24Hour": true,
-                startDate: moment().startOf('day'),
-                endDate: moment().endOf('day'),
+                startDate: @js($start_),
+                endDate: @js($end_),
                 locale: {
                     format: 'DD-MM-YYYY HH:mm'
                 },
             }, function(start, end, label) {
                 @this.start = start.format('YYYY-MM-DD HH:mm');
                 @this.end = end.format('YYYY-MM-DD HH:mm');
+                @this.start_ = start.format('YYYY-MM-DD HH:mm');
+                @this.end_ = end.format('YYYY-MM-DD HH:mm');
             });
         });
     </script>

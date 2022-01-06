@@ -35,7 +35,10 @@ class Form extends Component
 
         $temps = OrderOutTemp::all();
         $this->total = OrderOutTemp::all()->sum('sub_total');
-        $harga = JenisHarga::all();
+        $harga = JenisHarga::whereIn('name', ['Otc', 'Ethical'])->get();
+        if ($this->tipe_transaksi == 'Halodoc') {
+            $harga = JenisHarga::where('name', 'Halodoc')->get();
+        }
 
         return view('livewire.transaksi.non-resep.form')->with(compact(['products', 'jenisHarga', 'temps', 'harga']));
     }
@@ -67,9 +70,9 @@ class Form extends Component
             $start = Carbon::createFromFormat('h:i A', $item->start);
             $end =  Carbon::createFromFormat('h:i A', $item->end);
             if ($item->end == '07:00 AM') {
-                $start = Carbon::createFromFormat('h:i A', '00:00 AM');
+                $start = Carbon::createFromFormat('h:i A', '09:00 PM');
             }
-            if ($now->isBetween($start, $end)) {
+            if ($now->isBetween($start, $end->addDay(1))) {
                 $this->shift = $item->name;
             }
         }
@@ -135,6 +138,9 @@ class Form extends Component
 
         // $j_harga = JenisHarga::find($this->jenis_harga);
         $j_harga = $this->product->jenisHarga;
+        if ($this->tipe_transaksi == 'Halodoc') {
+            $j_harga = JenisHarga::where('name', 'Halodoc')->first();
+        }
         $hna = $this->product->harga;
         $hna_ppn = $hna * 1.1;
         $H = $hna_ppn * (1 + ($j_harga->persentase / 100));
