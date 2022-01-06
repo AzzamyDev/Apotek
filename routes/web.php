@@ -4,19 +4,19 @@ use App\Http\Livewire\admin\Dokter\Index as DokterIndex;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\admin\Karyawan\Index as KaryawanIndex;
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Admin\AturanPakai\Index as AturanPakaiIndex;
+use App\Http\Livewire\admin\AturanPakai\Index as AturanPakaiIndex;
 use App\Http\Livewire\admin\JenisHarga\Index as JenisHargaIndex;
-use App\Http\Livewire\Admin\TipeBarang\Index as TipeBarangIndex;
+use App\Http\Livewire\admin\TipeBarang\Index as TipeBarangIndex;
 use App\Http\Livewire\App\Home;
-use App\Http\Livewire\Gudang\Product\Index as ProductIndex;
-use App\Http\Livewire\Gudang\Supplier\Index as SupplierIndex;
-use App\Http\Livewire\Gudang\Faktur\Index as FakturIndex;
-use App\Http\Livewire\Gudang\Faktur\Form as FakturForm;
-use App\Http\Livewire\Gudang\Faktur\Detail as FakturDetail;
-use App\Http\Livewire\Transaksi\NonResep\Form as NonResepForm;
-use App\Http\Livewire\Transaksi\NonResep\Laporan as LaporanNonResep;
-use App\Http\Livewire\Transaksi\NonResep\Detail as DetailNonResep;
-use App\Http\Livewire\Transaksi\NonResep\ListTransaksi;
+use App\Http\Livewire\gudang\Product\Index as ProductIndex;
+use App\Http\Livewire\gudang\Supplier\Index as SupplierIndex;
+use App\Http\Livewire\gudang\Faktur\Index as FakturIndex;
+use App\Http\Livewire\gudang\Faktur\Form as FakturForm;
+use App\Http\Livewire\gudang\Faktur\Detail as FakturDetail;
+use App\Http\Livewire\transaksi\NonResep\Form as NonResepForm;
+use App\Http\Livewire\transaksi\NonResep\Laporan as LaporanNonResep;
+use App\Http\Livewire\transaksi\NonResep\Detail as DetailNonResep;
+use App\Http\Livewire\transaksi\NonResep\ListTransaksi;
 
 /*
 |--------------------------------------------------------------------------
