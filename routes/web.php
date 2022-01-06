@@ -1,16 +1,18 @@
 <?php
 
-use App\Http\Livewire\admin\Dokter;
+use App\Http\Livewire\admin\Dokter\Index as DokterIndex;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Livewire\admin\Karyawan;
+use App\Http\Livewire\admin\Karyawan\Index as KaryawanIndex;
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Admin\AturanPakai;
-use App\Http\Livewire\admin\JenisHarga;
-use App\Http\Livewire\Admin\TipeBarang;
+use App\Http\Livewire\Admin\AturanPakai\Index as AturanPakaiIndex;
+use App\Http\Livewire\admin\JenisHarga\Index as JenisHargaIndex;
+use App\Http\Livewire\Admin\TipeBarang\Index as TipeBarangIndex;
 use App\Http\Livewire\App\Home;
-use App\Http\Livewire\Gudang\Product;
-use App\Http\Livewire\Gudang\Supplier;
-use App\Http\Livewire\Gudang\Faktur;
+use App\Http\Livewire\Gudang\Product\Index as ProductIndex;
+use App\Http\Livewire\Gudang\Supplier\Index as SupplierIndex;
+use App\Http\Livewire\Gudang\Faktur\Index as FakturIndex;
+use App\Http\Livewire\Gudang\Faktur\Form as FakturForm;
+use App\Http\Livewire\Gudang\Faktur\Detail as FakturDetail;
 use App\Http\Livewire\Transaksi\NonResep\Form as NonResepForm;
 use App\Http\Livewire\Transaksi\NonResep\Laporan as LaporanNonResep;
 use App\Http\Livewire\Transaksi\NonResep\Detail as DetailNonResep;
@@ -35,18 +37,18 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::get('/home', Home::class)->name('home');
     //admin
-    Route::get('karyawan', Karyawan\Index::class)->name('karyawan');
-    Route::get('dokter', Dokter\Index::class)->name('dokter');
-    Route::get('harga', JenisHarga\Index::class)->name('harga');
-    Route::get('aturan-pakai', AturanPakai\Index::class)->name('aturan-pakai');
-    Route::get('tipe-barang', TipeBarang\Index::class)->name('tipe_barang');
+    Route::get('karyawan', KaryawanIndex::class)->name('karyawan');
+    Route::get('dokter', DokterIndex::class)->name('dokter');
+    Route::get('harga', JenisHargaIndex::class)->name('harga');
+    Route::get('aturan-pakai', AturanPakaiIndex::class)->name('aturan-pakai');
+    Route::get('tipe-barang', TipeBarangIndex::class)->name('tipe_barang');
 
     //gudang
-    Route::get('supplier', Supplier\Index::class)->name('supplier');
-    Route::get('product', Product\Index::class)->name('product');
-    Route::get('faktur', Faktur\Index::class)->name('faktur');
-    Route::get('faktur/form', Faktur\Form::class)->name('faktur-form');
-    Route::get('faktur/{id}', Faktur\Detail::class)->name('faktur-detail');
+    Route::get('supplier', SupplierIndex::class)->name('supplier');
+    Route::get('product', ProductIndex::class)->name('product');
+    Route::get('faktur', FakturIndex::class)->name('faktur');
+    Route::get('faktur/form', FakturForm::class)->name('faktur-form');
+    Route::get('faktur/{id}', FakturDetail::class)->name('faktur-detail');
 
     //transaksi
     Route::get('transaksi/non-resep', NonResepForm::class)->name('non-resep');
