@@ -216,9 +216,11 @@ class Form extends Component
             $product->save();
             Record::create([
                 'product_id' => $item->product_id,
+                'qty' => $item->qty,
                 'sisa_stok' => $product->stok,
                 'no_faktur' => $trx->no_faktur,
-                'record' => 'In'
+                'record' => 'In',
+                'keterangan' => 'Pembelian'
             ]);
         }
 

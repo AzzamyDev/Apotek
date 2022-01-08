@@ -54,9 +54,11 @@ class Detail extends Component
 
         Record::create([
             'product_id' => $product->id,
+            'qty' => $this->retur,
             'sisa_stok' => $product->stok,
             'record' => 'In',
-            'no_transaksi' => $trx->no_transaksi
+            'no_transaksi' => $trx->no_transaksi,
+            'keterangan' => 'Retur Penjualan'
         ]);
 
         $this->edit = false;

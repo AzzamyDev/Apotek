@@ -14,4 +14,8 @@ class Faktur extends Model
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
     }
+    public function order()
+    {
+        return $this->hasMany(OrderIn::class, 'faktur_id');
+    }
 }

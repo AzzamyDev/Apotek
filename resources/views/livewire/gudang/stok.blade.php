@@ -55,7 +55,8 @@
                                         <td>{{ $item->JenisHarga->name }}</td>
                                         <td>@rupiah(($item->harga * (1+($item->jenisHarga->persentase/100))) * 1.1)</td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-outline-primary btn-sm btn-block">Kartu Stok</a>
+                                            <a href="{{ route('record', $item->id) }}"
+                                                class="btn btn-outline-primary btn-sm btn-block">Kartu Stok</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -21,6 +21,9 @@
             <h5>Transaksi Penjualan Non Resep</h5>
         </div>
         <div class="col-auto">
+            <button wire:click="print2" class="btn btn-sm btn-primary">Print</button>
+        </div>
+        <div class="col-auto">
             <h5>Shift : {{ $shift }}</h5>
         </div>
         <div class="col-auto">

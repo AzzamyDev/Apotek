@@ -16,11 +16,11 @@ class Stok extends Component
     public function render()
     {
         $tipe = TipeBarang::all();
-        $products = Product::where('status', 0)->where('name', 'like', '%' . $this->search . '%')->paginate(20);
-        $data = Product::where('status', 0)->where('name', 'like', '%' . $this->search . '%')->get();
+        $products = Product::where('status', 1)->where('name', 'like', '%' . $this->search . '%')->paginate(20);
+        $data = Product::where('status', 1)->where('name', 'like', '%' . $this->search . '%')->get();
         if ($this->type != null) {
-            $data = Product::where('status', 0)->where('tipe_barang_id', $this->type)->where('name', 'like', '%' . $this->search . '%')->get();
-            $products = Product::where('status', 0)->where('tipe_barang_id', $this->type)->where('name', 'like', '%' . $this->search . '%')->paginate(20);
+            $data = Product::where('status', 1)->where('tipe_barang_id', $this->type)->where('name', 'like', '%' . $this->search . '%')->get();
+            $products = Product::where('status', 1)->where('tipe_barang_id', $this->type)->where('name', 'like', '%' . $this->search . '%')->paginate(20);
         }
         $this->total_barang = $data->count();
         return view('livewire.gudang.stok')->with(compact(['tipe', 'products']));

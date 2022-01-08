@@ -16,6 +16,7 @@ class CreateRecordsTable extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
+            $table->bigInteger('qty');
             $table->bigInteger('sisa_stok');
             $table->enum('record', ['In', 'Out']);
             $table->string('no_faktur')->nullable();

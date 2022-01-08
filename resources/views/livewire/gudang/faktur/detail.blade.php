@@ -1,4 +1,17 @@
+@push('toast-css')
+    <link rel="stylesheet" href="{{ asset('node_modules/izitoast/dist/css/iziToast.min.css') }}">
+@endpush
 <section class="section">
+    @error('stok')
+        <script>
+            show('{{ $message }}')
+        </script>
+    @enderror
+    @if (session()->has('message'))
+        <script>
+            success('{{ session('message') }}')
+        </script>
+    @endif
     <div class="section-header row g-2">
         <div class="col">
             <h1>Detail Faktur</h1>
@@ -7,7 +20,6 @@
 
         </div>
     </div>
-
     <div class="section-body">
         <div class="container">
             <div class="section-title">Data Faktur Penerimaa Barang</div>
@@ -58,7 +70,8 @@
                             <h6>Jatuh Tempo</h6>
                         </div>
                         <div class="col-sm ">
-                            <h6 class="text-left">{{ $faktur->tempo != null ? $faktur->tempo : '-' }}</h6>
+                            <h6 class="text-left">
+                                {{ $faktur->tempo != null ? $faktur->tempo : '-' }}</h6>
                         </div>
                     </div>
                     <div class="row">
@@ -78,7 +91,7 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="section-title">Data Barang</div>
-                    <div style="max-height: 300px" class="table-responsive">
+                    <div class="table-responsive">
                         <table class="table table-hover table-md text-nowrap text-dark table-bordered table-primary">
                             <thead>
                                 <tr>
@@ -90,6 +103,7 @@
                                     <th>Harga Beli</th>
                                     <th>Diskon (%)</th>
                                     <th>Total</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -104,6 +118,29 @@
                                             <td>@rupiah( $item->harga_beli)</td>
                                             <td>{{ $item->diskon }}%</td>
                                             <td>@rupiah($item->sub_total)</td>
+                                            <td>
+                                                @if ($trx_id == $item->product_id && $edit)
+                                                    <div style="width: 150px">
+                                                        <label for="retur" class="form-label">Masukan Jumlah
+                                                            Retur</label>
+                                                        <input id="retur" wire:model.prevent='retur'
+                                                            class="form-control form-control-sm" type="number" min="0">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <button
+                                                                    class="mt-2 btn btn-sm btn-danger btn-block form-control form-control-sm"
+                                                                    wire:click='resetInput'>Batal</button>
+                                                            </div>
+                                                            <div class="col"><button wire:click='update'
+                                                                    class="mt-2 btn btn-sm btn-primary btn-block form-control form-control-sm">Simpan</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <button wire:click.prevent='edit({{ $item->product_id }})'
+                                                        class="btn btn-sm btn-danger">Retur</button>
+                                                @endif
+                                            </td>
                                         </tr>
 
                                     @endforeach
@@ -136,3 +173,29 @@
         </div>
     </div>
 </section>
+@push('toast')
+    <!-- Page Specific JS File -->
+    <script src="{{ asset('node_modules/izitoast/dist/js/iziToast.min.js') }}"></script>
+    <!-- JS Libraies -->
+    <script src="{{ asset('assets/js/page/modules-toastr.js') }}"></script>
+
+    <script>
+        function show(error) {
+            iziToast.warning({
+                message: error,
+                position: "topRight",
+            });
+            setInterval(() => {
+                Livewire.emit('resetError');
+            }, 2000);
+        }
+
+        function success(message) {
+            iziToast.success({
+                message: message,
+                position: "topRight",
+            });
+        }
+    </script>
+
+@endpush
