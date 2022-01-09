@@ -382,7 +382,7 @@
     </script>
     <script>
         function show(error) {
-            iziToast.error({
+            iziToast.warning({
                 message: error,
                 position: "topRight",
             });

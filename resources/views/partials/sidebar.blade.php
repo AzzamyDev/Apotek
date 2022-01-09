@@ -45,8 +45,8 @@
             @hasanyrole('karyawan|admin')
                 {{-- Transaksi --}}
                 <li class="menu-header">Apotek</li>
-                <li class="{{ Route::is('resep') ? 'active' : '' }}"><a class="nav-link"
-                        href="{{ route('resep') }}">
+                <li class="{{ Route::is('resep') ? 'active' : '' }}"><a class="nav-link" href="#"
+                        onclick="alert('Coming Soon')">
                         <i class="fas fa-prescription"></i>
                         <span>Resep</span></a>
                 </li>
@@ -69,6 +69,11 @@
                         href="{{ route('stok') }}">
                         <i class="fas fa-boxes"></i>
                         <span>Stok Obat</span></a>
+                </li>
+                <li class="{{ Route::is('warning-stok') ? 'active' : '' }}"><a class="nav-link"
+                        href="{{ route('warning-stok') }}">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Warning Stok</span></a>
                 </li>
                 {{-- <li class="{{ Route::is('laporan-transaksi') ? 'active' : '' }}"><a class="nav-link"
                         href="{{ route('laporan-transaksi') }}">

@@ -16,7 +16,7 @@ class Detail extends Component
 
     public function mount($id)
     {
-        $faktur = Transaction::find($id);
+        $faktur = Transaction::where('id', $id)->orWhere('no_transaksi', $id)->first();
         $this->list = OrderOut::where('transaksi_id', $faktur->id)->get();
         $this->transaksi = $faktur;
     }

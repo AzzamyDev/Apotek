@@ -15,7 +15,7 @@ class Detail extends Component
 
     public function mount($id)
     {
-        $faktur = Faktur::find($id);
+        $faktur = Faktur::where('id', $id)->orWhere('no_faktur', $id)->first();
         $this->list = OrderIn::where('faktur_id', $faktur->id)->get();
         $this->faktur = $faktur;
         $this->supplier = $faktur->supplier->name;

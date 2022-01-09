@@ -24,6 +24,8 @@ class CreateProductsTable extends Migration
             $table->bigInteger('harga');
             $table->boolean('status')->default(true);
             $table->bigInteger('stok')->default(0);
+            $table->bigInteger('min_stok')->nullable();
+            $table->bigInteger('max_stok')->nullable();
             $table->timestamps();
         });
     }

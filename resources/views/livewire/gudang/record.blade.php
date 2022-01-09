@@ -38,18 +38,23 @@
                     <div class="table-responsive mt-4">
                         <table class="table table-md table-bordered table-hover">
                             <thead class="table-primary">
-                                <tr>
-                                    <th class="text-center">Tanggal</th>
-                                    <th class="text-center">Masuk</th>
-                                    <th class="text-center">Keluar</th>
-                                    <th class="text-center">Sisa</th>
-                                    <th class="text-center">Keterangan</th>
+                                <tr class="text-center">
+                                    <th>Tanggal</th>
+                                    <th>Referensi</th>
+                                    <th>Masuk</th>
+                                    <th>Keluar</th>
+                                    <th>Sisa</th>
+                                    <th>Keterangan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($records as $item)
                                     <tr>
                                         <td class="text-center">{{ $item->created_at }}</td>
+                                        <td class="text-left">
+                                            <a
+                                                href="{{ $item->no_faktur != null ? route('to-faktur', $item->no_faktur) : route('to-trx', $item->no_transaksi) }}">{{ $item->no_faktur != null ? $item->no_faktur : $item->no_transaksi }}</a>
+                                        </td>
                                         @if ($item->record == 'In')
                                             <td class="text-center">{{ $item->qty }}</td>
                                             <td class="text-center"></td>
@@ -58,12 +63,20 @@
                                             <td class="text-center">{{ $item->qty }}</td>
                                         @endif
                                         <td class="text-center">{{ $item->sisa_stok }}</td>
-                                        <td class="text-center"><span
+                                        <td class="text-left"><span
                                                 class="badge badge-sm badge-{{ $item->record == 'Out' ? 'danger' : 'primary' }}">{{ $item->keterangan }}</span>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
+                            <tfoot>
+                                <tr class="text-center table-primary">
+                                    <th colspan="2">Total</th>
+                                    <th>{{ $records->where('record', 'In')->sum('qty') }}</th>
+                                    <th>{{ $records->where('record', 'Out')->sum('qty') }}</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

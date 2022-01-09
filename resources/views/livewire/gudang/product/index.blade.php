@@ -16,8 +16,8 @@
             <h1>Daftar Barang</h1>
         </div>
         <div class="col-auto">
-            <input wire:model="search" class="form-control" type="search" placeholder="Cari Barang" aria-label="Search"
-                data-width="250">
+            <input wire:model.debounce.1000ms="search" class="form-control" type="search" placeholder="Cari Barang"
+                aria-label="Search" data-width="250">
         </div>
         <div class="col-auto">
 

@@ -15,6 +15,7 @@ use App\Http\Livewire\gudang\Faktur\Form as FakturForm;
 use App\Http\Livewire\gudang\Faktur\Detail as FakturDetail;
 use App\Http\Livewire\gudang\Record as KartuStok;
 use App\Http\Livewire\gudang\Stok;
+use App\Http\Livewire\Gudang\WarningStok;
 use App\Http\Livewire\transaksi\NonResep\Form as NonResepForm;
 use App\Http\Livewire\transaksi\NonResep\Laporan as LaporanNonResep;
 use App\Http\Livewire\transaksi\NonResep\Detail as DetailNonResep;
@@ -48,9 +49,11 @@ Route::middleware('auth')->group(function () {
     //gudang
     Route::get('supplier', SupplierIndex::class)->name('supplier');
     Route::get('product', ProductIndex::class)->name('product');
+    Route::get('product/warning', WarningStok::class)->name('warning-stok');
     Route::get('faktur', FakturIndex::class)->name('faktur');
     Route::get('faktur/form', FakturForm::class)->name('faktur-form');
     Route::get('faktur/{id}', FakturDetail::class)->name('faktur-detail');
+    Route::get('faktur/{no_trx}', FakturDetail::class)->name('to-faktur');
     Route::get('record/{id}', KartuStok::class)->name('record');
 
     //Apotek
@@ -59,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('transaksi/list', ListTransaksi::class)->name('list-transaksi');
     Route::get('transaksi/laporan', LaporanNonResep::class)->name('laporan-transaksi');
     Route::get('transaksi/laporan/{id}', DetailNonResep::class)->name('detail-transaksi');
+    Route::get('transaksi/laporan/{no_trx}', DetailNonResep::class)->name('to-trx');
     Route::get('stok', Stok::class)->name('stok');
     Route::get('print/{trx}', function () {
         return view('helper.form.print_struk');
