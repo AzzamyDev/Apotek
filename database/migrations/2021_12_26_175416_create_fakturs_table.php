@@ -17,8 +17,8 @@ class CreateFaktursTable extends Migration
             $table->id();
             $table->integer('supplier_id');
             $table->integer('petugas_id');
-            $table->string('no_faktur');
-            $table->string('no_sp');
+            $table->string('no_faktur')->unique();
+            $table->string('no_sp')->unique();
             $table->timestamp('tanggal');
             $table->bigInteger('total');
             $table->bigInteger('total_real');

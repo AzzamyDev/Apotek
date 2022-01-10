@@ -94,7 +94,7 @@
                     <div class="table-responsive">
                         <table class="table table-hover table-md text-nowrap text-dark table-bordered table-primary">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th style="min-width: 180px">Nama Obat</th>
                                     <th>No Batch</th>
                                     <th>Expired</th>
@@ -118,20 +118,20 @@
                                             <td>@rupiah( $item->harga_beli)</td>
                                             <td>{{ $item->diskon }}%</td>
                                             <td>@rupiah($item->sub_total)</td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if ($trx_id == $item->product_id && $edit)
-                                                    <div style="width: 150px">
-                                                        <label for="retur" class="form-label">Masukan Jumlah
+                                                    <div style="width: 120px">
+                                                        <label for="retur" class="form-label">Jumlah
                                                             Retur</label>
                                                         <input id="retur" wire:model.prevent='retur'
                                                             class="form-control form-control-sm" type="number" min="0">
                                                         <div class="row">
-                                                            <div class="col">
+                                                            <div class="col-6 p-1">
                                                                 <button
                                                                     class="mt-2 btn btn-sm btn-danger btn-block form-control form-control-sm"
                                                                     wire:click='resetInput'>Batal</button>
                                                             </div>
-                                                            <div class="col"><button wire:click='update'
+                                                            <div class="col-6 p-1"><button wire:click='update'
                                                                     class="mt-2 btn btn-sm btn-primary btn-block form-control form-control-sm">Simpan</button>
                                                             </div>
                                                         </div>

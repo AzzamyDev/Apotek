@@ -61,7 +61,8 @@
                                             <label class="selectgroup-item">
                                                 <input wire:model="tipe_transaksi" type="radio" name="tipe_transaksi"
                                                     value="Halodoc" class="selectgroup-input selectgroup-input-sm">
-                                                <span class="selectgroup-button selectgroup-button-icon"><i
+                                                <span
+                                                    class="selectgroup-button {{ $tipe_transaksi == 'Halodoc' ? 'bg-danger' : '' }} selectgroup-button-icon"><i
                                                         class="fas fa-stethoscope"></i></span>
                                             </label>
                                         </div>

@@ -118,7 +118,7 @@
                                             <td>@rupiah($item->sub_total)</td>
                                             <td class="text-center" style="width: 100px">
                                                 @if ($trx_id == $item->product_id && $edit)
-                                                    <div style="width: 150px">
+                                                    <div style="width: 100px">
                                                         <label for="retur" class="form-label">Masukan Jumlah
                                                             Retur</label>
                                                         <input id="retur" wire:model.prevent='retur'
