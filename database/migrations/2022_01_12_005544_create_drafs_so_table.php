@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRecordsTable extends Migration
+class CreateDrafsSoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateRecordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('records', function (Blueprint $table) {
+        Schema::create('drafs_so', function (Blueprint $table) {
             $table->id();
+            $table->integer('so_id');
             $table->integer('product_id');
-            $table->bigInteger('qty');
-            $table->bigInteger('sisa_stok');
-            $table->enum('record', ['In', 'Out', 'Koreksi']);
-            $table->string('no_faktur')->nullable();
-            $table->string('no_transaksi')->nullable();
-            $table->text('keterangan')->nullable();
+            $table->string('name');
+            $table->bigInteger('harga');
+            $table->boolean('status')->default(false);
+            $table->integer('stok_terakhir')->nullable();
+            $table->integer('stok_akhir')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateRecordsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('records');
+        Schema::dropIfExists('drafs_so');
     }
 }

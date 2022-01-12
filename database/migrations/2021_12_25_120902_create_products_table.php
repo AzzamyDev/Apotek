@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('golongan');
             $table->integer('tipe_barang_id');
             $table->integer('tipe_harga_id');
-            $table->string('lokasi');
+            $table->string('lokasi')->nullable();
             $table->string('satuan');
             $table->bigInteger('harga');
             $table->boolean('status')->default(true);

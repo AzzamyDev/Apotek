@@ -27,17 +27,18 @@
                             </thead>
                             <tbody>
                                 @foreach ($products as $item)
-                                    <tr class="text-center">
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td class="text-left">{{ $item->name }}</td>
-                                        <td>{{ $item->golongan }}</td>
-                                        <td>{{ $item->lokasi }}</td>
-                                        <td>{{ $item->satuan }}</td>
-                                        <td>{{ $item->stok }}</td>
-                                        <td>{{ $item->min_stok }}</td>
-                                        <td>{{ $item->JenisHarga->name }}</td>
-                                        <td>@rupiah(($item->harga * (1+($item->jenisHarga->persentase/100))) * 1.1)</td>
-                                        <td>
+                                    <tr class="text-center align-middle">
+                                        <td class="align-middle">{{ $loop->index + 1 }}</td>
+                                        <td class="text-left align-middle">{{ $item->name }}</td>
+                                        <td class="align-middle">{{ $item->golongan }}</td>
+                                        <td class="align-middle">{{ $item->lokasi }}</td>
+                                        <td class="align-middle">{{ $item->satuan }}</td>
+                                        <td class="align-middle">{{ $item->stok }}</td>
+                                        <td class="align-middle">{{ $item->min_stok }}</td>
+                                        <td class="align-middle">{{ $item->JenisHarga->name }}</td>
+                                        <td class="align-middle">@rupiah(($item->harga *
+                                            (1+($item->jenisHarga->persentase/100))) * 1.1)</td>
+                                        <td class="align-middle">
                                             <a href="{{ route('record', $item->id) }}"
                                                 class="btn btn-outline-primary btn-sm btn-block">Kartu Stok</a>
                                         </td>

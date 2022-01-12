@@ -6,18 +6,6 @@
     <link rel="stylesheet" href="{{ asset('node_modules/izitoast/dist/css/iziToast.min.css') }}">
 @endpush
 <section class="section">
-    <div wire:ignore>
-        <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <livewire:gudang.product.form>
-        </div>
-    </div>
-    <div wire:ignore>
-        <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle"
-            aria-hidden="true">
-            <livewire:gudang.product.delete-form>
-        </div>
-    </div>
     <div class="section-header row g-2">
         <div class="col">
             <h1>Daftar Barang</h1>
@@ -27,13 +15,7 @@
                 aria-label="Search">
             <small>Ketik 4 huruf nama barang</small>
         </div>
-        <div class="col-auto">
 
-            <div><button type="button" class="mb-3 btn btn-block btn-primary"
-                    wire:click="$emitTo('gudang.product.form','open','')">Tambah
-                    Barang</button>
-            </div>
-        </div>
     </div>
 
     <div class="section-body">

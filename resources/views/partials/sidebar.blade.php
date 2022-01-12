@@ -97,6 +97,11 @@
                         <i class="fas fa-dolly"></i>
                         <span>Penerimaan Barang</span></a>
                 </li>
+                <li class="{{ Route::is('index-opname') ? 'active' : '' }}"><a class="nav-link"
+                        href="{{ route('index-opname') }}">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Stok Opname</span></a>
+                </li>
                 {{-- end Gudang --}}
             @endhasanyrole
         </ul>

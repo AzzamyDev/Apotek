@@ -19,7 +19,7 @@ class Form extends Component
     }
 
 
-    public $name, $golongan, $tipe_barang_id, $tipe_harga_id, $lokasi, $satuan, $harga, $product_id;
+    public $name, $golongan, $tipe_barang_id, $tipe_harga_id, $lokasi, $satuan, $harga, $product_id, $min_stok, $max_stok;
     protected $listeners = ['open' => 'loadProduct'];
     protected $messages = [
         'name.required' => 'Nama tidak boleh kosong.',
@@ -61,7 +61,6 @@ class Form extends Component
                 'name' => 'required|unique:products',
                 'golongan' => 'required',
                 'harga' => 'required',
-                'lokasi' => 'required',
                 'satuan' => 'required',
                 'tipe_barang_id' => 'required',
                 'tipe_harga_id' => 'required',
@@ -71,7 +70,6 @@ class Form extends Component
             'name' => 'required',
             'golongan' => 'required',
             'harga' => 'required',
-            'lokasi' => 'required',
             'satuan' => 'required',
             'tipe_barang_id' => 'required',
             'tipe_harga_id' => 'required',
@@ -85,6 +83,8 @@ class Form extends Component
             'tipe_barang_id' => $this->tipe_barang_id,
             'tipe_harga_id' => $this->tipe_harga_id,
             'lokasi' => $this->lokasi,
+            'min_stok' => $this->min_stok,
+            'max_stok' => $this->max_stok,
         ]);
 
         $this->emit('toggleFormModal');

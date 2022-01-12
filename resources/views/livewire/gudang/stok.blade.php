@@ -28,9 +28,9 @@
                 <div class="col-12">
                     <div class="table-responsive">
                         <table class="table table-sm table-bordered table-hover text-nowrap">
-                            <thead class="table-primary">
+                            <thead class="table-primary text-center">
                                 <tr>
-                                    <th class="text-center">No</th>
+                                    <th>No</th>
                                     <th>Nama Barang</th>
                                     <th>Golongan Obat</th>
                                     <th>Tipe Barang</th>
@@ -39,22 +39,23 @@
                                     <th>Stok</th>
                                     <th>Jenis Harga</th>
                                     <th>Harga Jual</th>
-                                    <th class="text-center">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-center">
                                 @foreach ($products as $item)
                                     <tr>
-                                        <td class="text-center">{{ $loop->index + 1 }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->golongan }}</td>
-                                        <td>{{ $item->TipeBarang->name }}</td>
-                                        <td>{{ $item->lokasi }}</td>
-                                        <td>{{ $item->satuan }}</td>
-                                        <td>{{ $item->stok }}</td>
-                                        <td>{{ $item->JenisHarga->name }}</td>
-                                        <td>@rupiah(($item->harga * (1+($item->jenisHarga->persentase/100))) * 1.1)</td>
-                                        <td class="text-center">
+                                        <td class="align-middle">{{ $loop->index + 1 }}</td>
+                                        <td class="text-left align-middle">{{ $item->name }}</td>
+                                        <td class="align-middle">{{ $item->golongan }}</td>
+                                        <td class="align-middle">{{ $item->TipeBarang->name }}</td>
+                                        <td class="align-middle">{{ $item->lokasi }}</td>
+                                        <td class="align-middle">{{ $item->satuan }}</td>
+                                        <td class="align-middle">{{ $item->stok }}</td>
+                                        <td class="align-middle">{{ $item->JenisHarga->name }}</td>
+                                        <td class="align-middle">@rupiah(($item->harga *
+                                            (1+($item->jenisHarga->persentase/100))) * 1.1)</td>
+                                        <td class="align-middle">
                                             <a href="{{ route('record', $item->id) }}"
                                                 class="btn btn-outline-primary btn-sm btn-block">Kartu Stok</a>
                                         </td>

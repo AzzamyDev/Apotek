@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 mt-2">
                         <label class="text-dark">Lokasi Rak</label>
                         <div class="input-group">
                             <input wire:model='lokasi' required value="{{ old('lokasi') }}" id="lokasi" name="lokasi"
@@ -44,7 +44,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 mt-2">
                         <label class="text-dark" for="inputState">Tipe Barang</label>
                         <select wire:model='tipe_barang_id' id="inputState" class="form-control">
                             <option selected>Pilih...</option>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 mt-2">
                         <label class="text-dark">Harga Beli (HNA)</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -73,7 +73,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 mt-2">
                         <label for="inputState" class="text-dark">Tipe Harga</label>
                         <select wire:model='tipe_harga_id' id="inputState" class="form-control">
                             <option selected>Pilih...</option>
@@ -85,15 +85,39 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 mt-2">
                         <label for="inputState" class="text-dark">Satuan</label>
                         <select wire:model='satuan' id="inputState" class="form-control">
                             <option selected>Pilih...</option>
                             @foreach ($satuans as $item)
-                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                <option value="{{ strtoupper($item->name) }}">
+                                    {{ strtoupper($item->name) }}
+                                </option>
                             @endforeach
                         </select>
                         @error('satuan')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-3 mt-2">
+                        <label class="text-dark">Minimal Stok</label>
+                        <div class="input-group">
+                            <input wire:model='min_stok' required value="{{ old('min_stok') }}" id="min_stok"
+                                name="min_stok" type="number"
+                                class="form-control @error('min_stok')is-invalid @enderror">
+                        </div>
+                        @error('min_stok')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-3 mt-2">
+                        <label class="text-dark">Maksimal Stok</label>
+                        <div class="input-group">
+                            <input wire:model='max_stok' required value="{{ old('max_stok') }}" id="max_stok"
+                                name="max_stok" type="number"
+                                class="form-control @error('max_stok')is-invalid @enderror">
+                        </div>
+                        @error('max_stok')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>

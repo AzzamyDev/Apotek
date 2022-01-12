@@ -103,12 +103,12 @@
                                     <div class="col-sm">
                                         <div class="selectgroup w-100">
                                             <label class="selectgroup-item">
-                                                <input wire:model.defer="bayar" type="radio" name="bayar" value="Tunai"
+                                                <input wire:model="bayar" type="radio" name="bayar" value="Tunai"
                                                     class="selectgroup-input selectgroup-input-sm" checked="">
                                                 <span class="selectgroup-button">Tunai</span>
                                             </label>
                                             <label class="selectgroup-item">
-                                                <input wire:model.defer="bayar" type="radio" name="bayar" value="Kredit"
+                                                <input wire:model="bayar" type="radio" name="bayar" value="Kredit"
                                                     class="selectgroup-input selectgroup-input-sm">
                                                 <span class="selectgroup-button">Kredit</span>
                                             </label>
@@ -120,21 +120,23 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="tempo"
-                                        class="col-sm-12 col-form-label col-form-label-sm text-nowrap">Jatuh
-                                        Tempo</label>
-                                    <div class="col-sm">
-                                        <input wire:model.defer="tempo" autocomplete="off" type="date"
-                                            class="form-control form-control-sm @error('tempo') is-invalid @else '' @enderror"
-                                            id="tempo">
-                                        @error('tempo')
-                                            <script>
-                                                show('{{ $message }}')
-                                            </script>
-                                        @enderror
+                                @if ($bayar == 'Kredit')
+                                    <div class="form-group row">
+                                        <label for="tempo"
+                                            class="col-sm-12 col-form-label col-form-label-sm text-nowrap">Jatuh
+                                            Tempo</label>
+                                        <div class="col-sm">
+                                            <input wire:model.defer="tempo" autocomplete="off" type="date"
+                                                class="form-control form-control-sm @error('tempo') is-invalid @else '' @enderror"
+                                                id="tempo">
+                                            @error('tempo')
+                                                <script>
+                                                    show('{{ $message }}')
+                                                </script>
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                                 <div class="section-title">Rincian</div>
                                 <div class="form-group row">
                                     <label for="biaya_lain"

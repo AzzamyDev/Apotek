@@ -9,6 +9,7 @@ use Livewire\Component;
 class Record extends Component
 {
     public $product, $product_id, $start, $end, $start_, $end_;
+    protected $listeners = ['render'];
     public function render()
     {
         $records = KartuStok::whereBetween('created_at', array($this->start, $this->end))

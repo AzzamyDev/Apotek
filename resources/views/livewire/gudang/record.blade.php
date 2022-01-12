@@ -1,9 +1,15 @@
 @push('toast-css')
+    <link rel="stylesheet" href="{{ asset('node_modules/izitoast/dist/css/iziToast.min.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 <section class="section">
+    <div wire:ignore>
+        <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <livewire:gudang.form-koreksi>
+        </div>
+    </div>
     <div class="section-header row g-2">
         <div class="col-7">
             <h1>Kartu Stok</h1>
@@ -15,6 +21,8 @@
                 <div class="col-3 my-1">Nama Barang</div>
                 <div class="col my-1">: <strong> {{ $product->name }}</strong></div>
             </div>
+            <button wire:click="$emitTo('gudang.form-koreksi','open',{{ $product->id }})"
+                class="mt-3 btn btn-outline-danger btn-block btn-sm w-25 ">Koreksi Stok</button>
         </div>
         <div class="col-5 mt-3">
             <div class="form-group ">
@@ -34,37 +42,79 @@
     <div class="section-body">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-8">
+                <div class="col-auto">
                     <div class="table-responsive mt-4">
-                        <table class="table table-md table-bordered table-hover">
+                        <table class="table table-md table-bordered table-hover align-middle">
                             <thead class="table-primary">
                                 <tr class="text-center">
                                     <th>Tanggal</th>
                                     <th>Referensi</th>
                                     <th>Masuk</th>
                                     <th>Keluar</th>
+                                    <th>Koreksi</th>
                                     <th>Sisa</th>
                                     <th>Keterangan</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-center">
                                 @foreach ($records as $item)
                                     <tr>
-                                        <td class="text-center">{{ $item->created_at }}</td>
-                                        <td class="text-left">
-                                            <a
-                                                href="{{ $item->no_faktur != null ? route('to-faktur', $item->no_faktur) : route('to-trx', $item->no_transaksi) }}">{{ $item->no_faktur != null ? $item->no_faktur : $item->no_transaksi }}</a>
+                                        <td class="align-middle">{{ $item->created_at }}</td>
+                                        <td class="text-left align-middle">
+                                            @switch($item->record)
+                                                @case('In')
+                                                    <a href="{{ route('to-faktur', $item->no_faktur) }}">{{ $item->no_faktur }}
+                                                    </a>
+                                                @break
+                                                @case('Out')
+                                                    <a href="{{ route('to-trx', $item->no_transaksi) }}">{{ $item->no_transaksi }}
+                                                    </a>
+                                                @break
+                                                @case('Koreksi')
+                                                    @php
+                                                        $ref = explode('-', $item->keterangan);
+                                                    @endphp
+                                                    <span>{{ $item->record . ' oleh ' . $ref[0] }}
+                                                    </span>
+                                                @break
+                                                @default
+
+                                            @endswitch
                                         </td>
-                                        @if ($item->record == 'In')
-                                            <td class="text-center">{{ $item->qty }}</td>
-                                            <td class="text-center"></td>
-                                        @else
-                                            <td class="text-center"></td>
-                                            <td class="text-center">{{ $item->qty }}</td>
-                                        @endif
-                                        <td class="text-center">{{ $item->sisa_stok }}</td>
-                                        <td class="text-left"><span
-                                                class="badge badge-sm badge-{{ $item->record == 'Out' ? 'danger' : 'primary' }}">{{ $item->keterangan }}</span>
+                                        @switch($item->record)
+                                            @case('In')
+                                                <td class="align-middle">{{ $item->qty }}</td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
+                                            @break
+                                            @case('Out')
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle">{{ $item->qty }}</td>
+                                                <td class="align-middle"></td>
+                                            @break
+                                            @case('Koreksi')
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle"></td>
+                                                <td class="align-middle">{{ $item->qty }}</td>
+                                            @break
+                                            @default
+
+                                        @endswitch
+                                        <td class="align-middle">{{ $item->sisa_stok }}</td>
+                                        <td class="text-left align-middle">
+                                            <span
+                                                class="badge badge-sm w-100 badge-{{ $item->record == 'Out' ? 'danger' : 'primary' }}">
+                                                @switch($item->record)
+                                                    @case('Koreksi')
+                                                        @php
+                                                            $ref = explode('-', $item->keterangan);
+                                                        @endphp
+                                                        {{ $ref[1] }}
+                                                    @break
+                                                    @default
+                                                        {{ $item->keterangan }}
+                                                @endswitch
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -72,9 +122,11 @@
                             <tfoot>
                                 <tr class="text-center table-primary">
                                     <th colspan="2">Total</th>
-                                    <th>{{ $records->where('record', 'In')->sum('qty') }}</th>
-                                    <th>{{ $records->where('record', 'Out')->sum('qty') }}</th>
-                                    <th colspan="2"></th>
+                                    <th>{{ $records->where('record', 'In')->where('keterangan', 'Pembelian')->sum('qty') }}
+                                    </th>
+                                    <th>{{ $records->where('record', 'Out')->where('keterangan', 'Penjualan')->sum('qty') }}
+                                    </th>
+                                    <th colspan="3"></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -91,6 +143,10 @@
     <script src="{{ asset('node_modules/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
     <script src="{{ asset('assets/js/page/forms-advanced-forms.js') }}"></script>
+    <!-- Page Specific JS File -->
+    <script src="{{ asset('node_modules/izitoast/dist/js/iziToast.min.js') }}"></script>
+    <!-- JS Libraies -->
+    <script src="{{ asset('assets/js/page/modules-toastr.js') }}"></script>
     <script>
         $(function() {
             $('input[name="daterange"]').daterangepicker({
@@ -110,4 +166,29 @@
             });
         });
     </script>
+    <script>
+        window.livewire.on('toggleFormModal', () => {
+            $('#form-modal').appendTo('body');
+            $('#form-modal').modal('toggle');
+        });
+        window.addEventListener('save', event => {
+            Livewire.emit('render')
+            iziToast.success({
+                title: "Success",
+                message: event.detail.save,
+                position: "topRight",
+            });
+        })
+    </script>
+@endpush
+@push('js_lib')
+    <!-- JS Libraies -->
+    <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
+
+@endpush
+@push('custom_js')
+    <!-- Page Specific JS File -->
+    <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
 @endpush

@@ -21,7 +21,9 @@
             <h5>Transaksi Penjualan Non Resep</h5>
         </div>
         <div class="col-auto">
-            <button wire:click="print2" class="btn btn-sm btn-primary">Print</button>
+            {{-- wire:click="print2" --}}
+            <button onclick="alert('Coming Soon');" class="btn btn-sm btn-primary"><i class="fas fa-print"></i>
+                Print</button>
         </div>
         <div class="col-auto">
             <h5>Shift : {{ $shift }}</h5>
@@ -279,7 +281,7 @@
                             </div>
                         </div>
                         <div style="height: 350px" class=" table-responsive">
-                            <table class="table table-hover table-md text-nowrap">
+                            <table class="table table-hover table-md text-nowrap table-sm align-middle p-2">
                                 <thead>
                                     <tr>
                                         <th style="min-width: 50px">No</th>

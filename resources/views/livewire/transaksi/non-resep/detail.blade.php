@@ -24,7 +24,7 @@
         <div class="container">
             <div class="section-title">Data Transaksi</div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-7">
                     <div class="row">
                         <div class="col-sm-3 ">
                             <h6>Tanggal</h6>
@@ -119,7 +119,7 @@
                                             <td class="text-center" style="width: 100px">
                                                 @if ($trx_id == $item->product_id && $edit)
                                                     <div style="width: 100px">
-                                                        <label for="retur" class="form-label">Masukan Jumlah
+                                                        <label for="retur" class="form-label">Jumlah
                                                             Retur</label>
                                                         <input id="retur" wire:model.prevent='retur'
                                                             class="form-control form-control-sm" type="number" min="0">

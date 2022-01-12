@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['render'];
@@ -16,6 +17,18 @@ class Index extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+    public function openDelete($id)
+    {
+        $this->resetDelete();
+        $this->confirming = $id;
+        $p = Product::find($id);
+        $this->nama_barang = $p->name;
+        $this->emit('toggleFormModalDelete');
+    }
+    public function resetDelete()
+    {
+        $this->reset(['confirming', 'nama_barang']);
     }
 
     public function render()
@@ -27,13 +40,7 @@ class Index extends Component
         $products = Product::where('name', 'like', '%' . $cari . '%')->paginate(20);
         return view('livewire.gudang.product.index')->with(compact('products'));
     }
-    public function destroy($id)
-    {
-        $product = Product::find($id);
-        $productName = $product->name;
-        $product->delete();
-        $this->dispatchBrowserEvent('refresh', ['message' => $productName . ' berhasil di hapus']);
-    }
+
     public function setStatus($id)
     {
         $product = Product::find($id);
