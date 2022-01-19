@@ -34,7 +34,7 @@ class Index extends Component
     public function render()
     {
         $cari = '';
-        if (strlen($this->search) >= 4) {
+        if (strlen($this->search) >= 2) {
             $cari = $this->search;
         }
         $products = Product::where('name', 'like', '%' . $cari . '%')->paginate(20);

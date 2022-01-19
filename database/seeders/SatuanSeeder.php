@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\AturanPakai;
+use App\Models\Dokter;
 use App\Models\JenisHarga;
 use App\Models\Satuan;
 use App\Models\Shift;
@@ -38,6 +40,11 @@ class SatuanSeeder extends Seeder
         TipeBarang::create(['name' => 'Alkes']);
         TipeBarang::create(['name' => 'Konsinyasi']);
         TipeBarang::create(['name' => 'Minuman']);
+        TipeBarang::create(['name' => 'Pelayanan']);
+        TipeBarang::create(['name' => 'Resep']);
+
+        Dokter::create(['name' => 'Dr. Angga', 'telepon' => '0']);
+        AturanPakai::create(['name' => '3 x Sehari']);
 
         JenisHarga::create(['name' => 'Ethical', 'persentase' => 20]);
         JenisHarga::create(['name' => 'Otc', 'persentase' => 14]);

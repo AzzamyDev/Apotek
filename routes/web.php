@@ -21,10 +21,13 @@ use App\Http\Livewire\Gudang\StokOpname\Form as StokOpnameForm;
 use App\Http\Livewire\Gudang\StokOpname\Detail as StokOpnameDetail;
 use App\Http\Livewire\Gudang\StokOpname\Nilai as StokOpnameNilai;
 use App\Http\Livewire\Gudang\StokOpname\Nbh as StokOpnameNbh;
+use App\Http\Livewire\transaksi\Resep\Form as ResepForm;
+use App\Http\Livewire\transaksi\Resep\Laporan as LaporanResep;
+use App\Http\Livewire\transaksi\Resep\Detail as DetailResep;
 use App\Http\Livewire\transaksi\NonResep\Form as NonResepForm;
 use App\Http\Livewire\transaksi\NonResep\Laporan as LaporanNonResep;
 use App\Http\Livewire\transaksi\NonResep\Detail as DetailNonResep;
-use App\Http\Livewire\transaksi\NonResep\ListTransaksi;
+use App\Http\Livewire\transaksi\NonResep\ListTransaksi as ListTransaksiNonResep;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,12 +70,18 @@ Route::middleware('auth')->group(function () {
     Route::get('record/{id}', KartuStok::class)->name('record');
 
     //Apotek
+
+    //Resep
     Route::get('transaksi/non-resep', NonResepForm::class)->name('non-resep');
-    Route::get('transaksi/resep', NonResepForm::class)->name('resep');
-    Route::get('transaksi/list', ListTransaksi::class)->name('list-transaksi');
-    Route::get('transaksi/laporan', LaporanNonResep::class)->name('laporan-transaksi');
-    Route::get('transaksi/laporan/{id}', DetailNonResep::class)->name('detail-transaksi');
-    Route::get('transaksi/laporan/{no_trx}', DetailNonResep::class)->name('to-trx');
+    Route::get('transaksi/resep', ResepForm::class)->name('resep');
+    Route::get('transaksi/resep/laporan', LaporanResep::class)->name('laporan-transaksi-resep');
+    Route::get('transaksi/resep/laporan/{id}', DetailResep::class)->name('detail-transaksi-resep');
+    //Non-Resep
+    Route::get('transaksi/non-resep/list', ListTransaksiNonResep::class)->name('list-transaksi');
+    Route::get('transaksi/non-resep/laporan', LaporanNonResep::class)->name('laporan-transaksi');
+    Route::get('transaksi/non-resep/laporan/{id}', DetailNonResep::class)->name('detail-transaksi');
+    Route::get('transaksi/non-resep/laporan/{no_trx}', DetailNonResep::class)->name('to-trx');
+    //stok
     Route::get('stok', Stok::class)->name('stok');
     Route::get('print/{trx}', function () {
         return view('helper.form.print_struk');

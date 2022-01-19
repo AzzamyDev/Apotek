@@ -10,7 +10,7 @@
 
     <div class="section-header row">
         <div class="col">
-            <h1>Laporan Penjualan Non Resep</h1>
+            <h1>Laporan Penjualan Resep</h1>
         </div>
         <div class="col-auto">
             <input wire:model="cari" class="form-control" type="search" placeholder="Cari Transaksi"
@@ -47,7 +47,7 @@
                                     <th>Nomer Transaksi</th>
                                     <th>Tipe Transaksi</th>
                                     <th>Tipe Bayar</th>
-                                    <th>Customer</th>
+                                    <th>Pasien</th>
                                     <th>Total</th>
                                     <th>Sift</th>
                                     <th class="text-center">Action</th>
@@ -66,7 +66,7 @@
                                             <td>@rupiah($item->total)</td>
                                             <td>Shift {{ $item->shift_id }}</td>
                                             <td class="text-center">
-                                                <a href="{{ route('detail-transaksi', $item->id) }}"
+                                                <a href="{{ route('detail-transaksi-resep', $item->id) }}"
                                                     class="btn btn-primary btn-sm btn-block">Detail</a>
                                             </td>
                                         </tr>

@@ -12,13 +12,33 @@
             border-color: #5cb85c !important;
         }
 
+        .modal .modal-body {
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
     </style>
 @endpush
 <section class="section">
-
+    <div wire:ignore>
+        <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <livewire:transaksi.resep.form-racikan>
+        </div>
+    </div>
     <div class="section-header row">
         <div class="col">
-            <h5>Transaksi Penjualan Non Resep</h5>
+            <h5>Transaksi Penjualan Resep</h5>
+        </div>
+        <div class="col-auto">
+            {{-- wire:click="print2" --}}
+            <button wire:click="openFormRacik" class="btn btn-sm btn-secondary text-dark"><i
+                    class="fas fa-mortar-pestle"></i>
+                Buat Racikan</button>
+        </div>
+        <div class="col-auto">
+            {{-- wire:click="print2" --}}
+            <button onclick="alert('Coming Soon');" class="btn btn-sm btn-primary"><i class="fas fa-print"></i>
+                Print</button>
         </div>
         <div class="col-auto">
             <h5>Shift : {{ $shift }}</h5>
@@ -43,47 +63,51 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="tipe_bayar"
-                                        class="col-sm-12 col-form-label col-form-label-sm text-nowrap">Tipe
-                                        Transaksi</label>
+                                    <label for="dokter" class="col-sm-1 mr-5 col-form-label text-nowrap">Dokter</label>
                                     <div class="col-sm">
-                                        <div wire:loading.remove wire:target='tipe_transaksi' class="selectgroup w-100">
-                                            <label class="selectgroup-item">
-                                                <input wire:model="tipe_transaksi" type="radio" name="tipe_transaksi"
-                                                    value="Umum" class="selectgroup-input selectgroup-input-sm"
-                                                    checked="">
-                                                <span class="selectgroup-button selectgroup-button-icon"><i
-                                                        class="fas fa-shopping-cart"></i></span>
-                                            </label>
-                                            <label class="selectgroup-item">
-                                                <input wire:model="tipe_transaksi" type="radio" name="tipe_transaksi"
-                                                    value="Halodoc" class="selectgroup-input selectgroup-input-sm">
-                                                <span class="selectgroup-button selectgroup-button-icon"><i
-                                                        class="fas fa-stethoscope"></i></span>
-                                            </label>
-                                        </div>
+                                        <select wire:model.lazy="dokter"
+                                            class="custom-select custom-select-sm mr-sm-1 mr-3 @error('dokter') is-invalid @else '' @enderror"
+                                            id="dokter">
+                                            <option selected>Pilih...</option>
+                                            @foreach ($dokters as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('dokter')
+                                            <script>
+                                                show('{{ $message }}')
+                                            </script>
+                                        @enderror
                                     </div>
                                 </div>
-                                <div wire:loading wire:loading.delay.longest wire:target='tipe_transaksi'
-                                    class="badge badge-primary mb-2">
-                                    <i class="fas fa-cog"></i> Mengubah Transaksi...
-                                </div>
-                                @if ($tipe_transaksi == 'Halodoc')
-                                    <div class="form-group row">
-                                        <label for="customer"
-                                            class="col-sm-1 mr-5 col-form-label col-form-label-sm text-nowrap">Customer</label>
-                                        <div class="col-sm">
-                                            <input wire:model.defer="customer" autocomplete="off" type="text"
-                                                class="form-control form-control-sm @error('customer') is-invalid @enderror"
-                                                id="customer">
-                                            @error('customer')
-                                                <script>
-                                                    show('{{ $message }}')
-                                                </script>
-                                            @enderror
-                                        </div>
+                                <div class="form-group row">
+                                    <label for="no_resep"
+                                        class="col-sm-1 mr-5 col-form-label col-form-label-sm text-nowrap">No
+                                        Resep</label>
+                                    <div class="col-sm">
+                                        <input wire:model="no_resep" autocomplete="off" type="text"
+                                            class="form-control form-control-sm @error('no_resep') is-invalid @enderror"
+                                            id="no_resep">
+                                        @error('no_resep')
+                                            <script>
+                                                show('{{ $message }}')
+                                            </script>
+                                        @enderror
                                     </div>
-                                @endif
+                                </div>
+                                <div class="form-group row">
+                                    <label for="pasien"
+                                        class="col-sm-1 mr-5 col-form-label col-form-label-sm text-nowrap">Pasien</label>
+                                    <div class="col-sm">
+                                        <input wire:model="pasien" autocomplete="off" type="text"
+                                            class="form-control form-control-sm " id="pasien">
+                                        @error('pasien')
+                                            <script>
+                                                show('{{ $message }}')
+                                            </script>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label for="keterangan"
                                         class="col-sm-1 mr-5 col-form-label col-form-label-sm text-nowrap">Keterangan</label>
@@ -178,6 +202,64 @@
                             <div class="card-body">
                                 <h5>Tambah Item</h5>
                                 <div class="form-row align-items-center">
+                                    <div class="col-6 mb-3">
+                                        <div class="input-group mt-2">
+                                            <select wire:model.defer="racikan_id"
+                                                class="custom-select custom-select-sm @error('racikan_id') is-invalid @enderror"
+                                                id="racikan" aria-label="Racikan">
+                                                <option selected value="">Pilih Racikan...</option>
+                                                @foreach ($racikans as $item)
+                                                    <option value="{{ $item->id }}">
+                                                        {{ $item->nama_racikan }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append">
+                                                <input wire:model.defer='qty_r' style="width: 80px" type="number"
+                                                    class="form-control @error('qty_r') is-invalid @enderror"
+                                                    placeholder="Qty">
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button wire:click="addRacikan" class="btn btn-sm btn-primary"
+                                                    type="button"><i class="fas fa-plus px-2"></i></button>
+                                            </div>
+                                        </div>
+                                        @error('racikan_id')
+                                            <script>
+                                                show('{{ $message }}');
+                                            </script>
+                                        @enderror
+                                        @error('qty_r')
+                                            <script>
+                                                show('{{ $message }}');
+                                            </script>
+                                        @enderror
+                                    </div>
+                                    <div class="col-6  mb-3">
+                                        <div class="input-group mt-2">
+                                            <select wire:model="pelayanan_id"
+                                                class="custom-select custom-select-sm @error('pelayanan_id') is-invalid @enderror"
+                                                id="pelayanan_id" aria-label="Pelayanan">
+                                                <option selected value="">Pilih Pelayanan...</option>
+                                                @foreach ($pelayanan as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append">
+                                                <input wire:model.defer='qty_p' style="width: 60px" type="number"
+                                                    class="form-control @error('qty_p') is-invalid @enderror"
+                                                    placeholder="Qty">
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button wire:click="addPelayanan" class="btn btn-sm btn-primary"
+                                                    type="button"><i class="fas fa-plus px-2"></i></button>
+                                            </div>
+                                        </div>
+                                        @error('qty_p')
+                                            <script>
+                                                show('{{ $message }}');
+                                            </script>
+                                        @enderror
+                                    </div>
                                     <div class="col-md">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -244,26 +326,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-2">
-                                        <div class="input-group ">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="fas fa-money-bill"></i></div>
-                                            </div>
-                                            <select wire:model="jenis_harga" class="custom-select custom-select-sm"
-                                                name="jenis_harga" id="jenis_harga">
-                                                <option selected value="">Pilih..</option>
-                                                @foreach ($jenisHarga as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('jenis_harga')
-                                                <script>
-                                                    show('{{ $message }}')
-                                                </script>
-                                            @enderror
-                                        </div>
-                                    </div> --}}
                                     <div class="col-md-auto">
                                         <div class="input-group">
                                             <button {{ $product != null ? '' : 'disable' }} type="button"
@@ -274,8 +336,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="height: 500px;max-height: 500px" class="table-responsive">
-                            <table class="table table-hover table-md text-nowrap">
+                        <div style="height: 350px" class=" table-responsive">
+                            <table class="table table-hover table-md text-nowrap table-sm align-middle p-2">
                                 <thead>
                                     <tr>
                                         <th style="min-width: 50px">No</th>

@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Livewire\Transaksi\NonResep;
+namespace App\Http\Livewire\Transaksi\Resep;
 
-use App\Models\OrderIn;
-use App\Models\OrderOut;
-use App\Models\Product;
 use App\Models\Record;
-use App\Models\Transaction;
+use App\Models\Product;
 use Livewire\Component;
+use App\Models\OrderOut;
+use App\Models\Transaction;
 
 class Detail extends Component
 {
-    public $total, $supplier, $transaksi, $list, $retur, $trx_id;
+    public $total, $transaksi, $list, $retur, $trx_id;
     public $edit = false;
 
     public function mount($id)
@@ -23,7 +22,7 @@ class Detail extends Component
     public function render()
     {
         $lists = $this->list;
-        return view('livewire.transaksi.non-resep.detail')->with(compact('lists'));
+        return view('livewire.transaksi.resep.detail')->with(compact('lists'));
     }
     public function edit($id)
     {

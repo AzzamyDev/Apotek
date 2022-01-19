@@ -12,6 +12,7 @@ use App\Models\JenisHarga;
 use Mike42\Escpos\Printer;
 use App\Models\Transaction;
 use App\Models\OrderOutTemp;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Mike42\Escpos\CapabilityProfile;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
@@ -20,7 +21,8 @@ use charlieuki\ReceiptPrinter\ReceiptPrinter as ReceiptPrinter;
 class Form extends Component
 {
     public $total, $product, $product_id, $stok, $cari, $harga_beli, $qty, $keterangan, $tanggal;
-    public $jumlahBayar, $tipe_bayar, $bayar, $shift, $no_transaksi, $jenis_harga, $tipe_transaksi, $customer;
+    public $jumlahBayar, $tipe_bayar, $bayar, $shift, $no_transaksi, $jenis_harga,
+        $tipe_transaksi, $customer, $pelayanan_id, $qty_p, $voucher, $voucher_m, $diskon = 0;
     public $kembalian = 0;
     protected $listeners = ['resetError'];
 
@@ -29,7 +31,7 @@ class Form extends Component
         $jenisHarga = JenisHarga::all();
         if ($this->product == null) {
             $products = [];
-            if (strlen($this->cari) >= 3) {
+            if (strlen($this->cari) >= 2) {
                 $products = Product::where('name', 'like', '%' . $this->cari . '%')
                     ->where('status', 1)->take(10)->get();
             }
@@ -38,27 +40,64 @@ class Form extends Component
         }
 
         $temps = OrderOutTemp::all();
-        $this->total = OrderOutTemp::all()->sum('sub_total');
+
         $harga = JenisHarga::whereIn('name', ['Otc', 'Ethical'])->get();
         if ($this->tipe_transaksi == 'Halodoc') {
             $harga = JenisHarga::where('name', 'Halodoc')->get();
         }
 
-        return view('livewire.transaksi.non-resep.form')->with(compact(['products', 'jenisHarga', 'temps', 'harga']));
+        $pelayanan = Product::where('tipe_barang_id', 5)->get();
+
+        $total = OrderOutTemp::all()->sum('sub_total');
+        $this->voucher_m = Voucher::where('name', $this->voucher)
+            ->whereDate('expired', '>', now()->toDateString())
+            ->where('min', '<', $total)
+            ->first();
+        $this->diskon = $this->pembulatan($this->getDiskon($total));
+        $this->total = $total - $this->diskon;
+        return view('livewire.transaksi.non-resep.form')->with(compact(['products', 'jenisHarga', 'temps', 'harga', 'pelayanan']));
+    }
+
+    public function getDiskon($total)
+    {
+        if ($this->voucher_m != null) {
+            $diskon = ($this->voucher_m->diskon / 100) * $total;
+            if ($diskon > $this->voucher_m->max) {
+                $diskon = $this->voucher_m->max;
+            }
+            return $diskon;
+        }
+        return 0;
     }
 
     public function pembulatan($t)
     {
-        $nominal = substr($t, -3);
-        $t -= $nominal;
-        if ($nominal > 750) {
-            return $t += 1000;
-        }
-        if ($nominal > 250 && $nominal < 750) {
-            return $t += 500;
-        }
-        if ($nominal < 250 && $nominal > 0) {
-            return $t += 0;
+        if (strlen($t) > 3) {
+            $nominal = substr($t, -3);
+            $t -= $nominal;
+            $_750 = range(250, 750, 1);
+            $_250 = range(0, 249, 1);
+            if ($nominal > 750) {
+                return $t += 1000;
+            }
+            if (in_array($nominal, $_750)) {
+                return $t += 500;
+            }
+            if (in_array($nominal, $_250)) {
+                return $t += 0;
+            }
+        } else {
+            $nominal = substr($t, -2);
+            $t -= $nominal;
+            if ($nominal > 75) {
+                return $t += 100;
+            }
+            if ($nominal > 25 && $nominal < 75) {
+                return $t += 50;
+            }
+            if ($nominal < 25 && $nominal > 0) {
+                return $t += 0;
+            }
         }
     }
 
@@ -172,6 +211,56 @@ class Form extends Component
         $this->dispatchBrowserEvent('focus');
     }
 
+    public function addPelayanan()
+    {
+        if ($this->pelayanan_id == null) {
+            return $this->addError('product_id', 'Set pelayanan dulu');
+        }
+
+        $product = Product::find($this->pelayanan_id);
+
+        if ($product->name != 'CEK KESEHATAN KOMPLIT') {
+            if ($this->qty_p > $product->stok) {
+                return $this->addError('product_id', 'Stok Produk tidak cukup');
+            }
+        } else {
+            $jasa = array('CEK ASAM URAT', 'CEK GULA DARAH', 'CEK KOLESTEROL', 'CEK TENSI DARAH');
+
+            for ($i = 0; $i < count($jasa); $i++) {
+                $p = Product::where('name', $jasa[$i])->first();
+                if ($p->name != 'CEK TENSI DARAH') {
+                    if ($this->qty_p > $p->stok) {
+                        return $this->addError('pelayanan_id', 'Stok Produk tidak cukup');
+                    }
+                }
+            }
+        }
+
+
+        if (OrderOutTemp::where('product_id', $product->id)->exists()) {
+            return $this->addError('product_id', 'Product sudah ada');
+        }
+
+        $this->validate([
+            'qty_p' => 'required',
+        ], [
+            'qty_p.required' => 'Qty belum di isi',
+        ]);
+        OrderOutTemp::create([
+            'jenis_order' => 'product',
+            'product_id' => $product->id,
+            'nama_barang' => $product->name,
+            'qty' => $this->qty_p,
+            'jenis_harga_id' => JenisHarga::where('name', 'Otc')->first()->id,
+            'harga_beli' => $product->harga,
+            'harga_jual' => $product->harga,
+            'sub_total' => $this->qty_p * $product->harga,
+        ]);
+
+        $this->reset(['pelayanan_id', 'qty_p']);
+        $this->dispatchBrowserEvent('focus');
+    }
+
     public function simpanTransaksi()
     {
         if ($this->tipe_transaksi == 'Halodoc') {
@@ -208,6 +297,8 @@ class Form extends Component
             'pasien' => $this->customer,
             'keterangan' => $this->keterangan != null ? $this->keterangan : null,
             'total' => $this->total,
+            'diskon' => $this->diskon,
+            'voucher_id' => $this->voucher_m != null ? $this->voucher_m->id : null,
             'jumlah_bayar' => $this->jumlahBayar
         ]);
 
@@ -216,16 +307,38 @@ class Form extends Component
             OrderOut::create($item->toArray());
 
             $product = Product::find($item->product_id);
-            $product->stok -= $item->qty;
-            $product->save();
-            Record::create([
-                'product_id' => $item->product_id,
-                'qty' => $item->qty,
-                'sisa_stok' => $product->stok,
-                'no_transaksi' => $trx->no_transaksi,
-                'record' => 'Out',
-                'keterangan' => 'Penjualan'
-            ]);
+            if ($product->name != 'CEK KESEHATAN KOMPLIT') {
+                if ($product->name != 'CEK TENSI DARAH') {
+                    $product->stok -= $item->qty;
+                    $product->save();
+                }
+                Record::create([
+                    'product_id' => $item->product_id,
+                    'qty' => $item->qty,
+                    'sisa_stok' => $product->stok,
+                    'no_transaksi' => $trx->no_transaksi,
+                    'record' => 'Out',
+                    'keterangan' => 'Penjualan'
+                ]);
+            } else {
+                $jasa = array('CEK ASAM URAT', 'CEK GULA DARAH', 'CEK KOLESTEROL', 'CEK TENSI DARAH');
+
+                for ($i = 0; $i < count($jasa); $i++) {
+                    $p = Product::where('name', $jasa[$i])->first();
+                    if ($p->name != 'CEK TENSI DARAH') {
+                        $p->stok -= $item->qty;
+                        $p->save();
+                    }
+                    Record::create([
+                        'product_id' => $p->id,
+                        'qty' => $item->qty,
+                        'sisa_stok' => $p->stok,
+                        'no_transaksi' => $trx->no_transaksi,
+                        'record' => 'Out',
+                        'keterangan' => 'Penjualan'
+                    ]);
+                }
+            }
         }
 
         OrderOutTemp::truncate();

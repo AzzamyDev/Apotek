@@ -45,8 +45,8 @@
             @hasanyrole('karyawan|admin')
                 {{-- Transaksi --}}
                 <li class="menu-header">Apotek</li>
-                <li class="{{ Route::is('resep') ? 'active' : '' }}"><a class="nav-link" href="#"
-                        onclick="alert('Coming Soon')">
+                <li class="{{ Route::is('resep') ? 'active' : '' }}"><a class="nav-link"
+                        href="{{ route('resep') }}">
                         <i class="fas fa-prescription"></i>
                         <span>Resep</span></a>
                 </li>
@@ -59,7 +59,9 @@
                     <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-chart-bar"></i>
                         <span>Laporan Transaksi</span></a>
                     <ul class="dropdown-menu">
-                        <li><a class="nav-link" href="{{ route('laporan-transaksi') }}">Semua Laporan</a>
+                        <li><a class="nav-link" href="{{ route('laporan-transaksi-resep') }}">Laporan Resep</a>
+                        </li>
+                        <li><a class="nav-link" href="{{ route('laporan-transaksi') }}">Laporan Non Resep</a>
                         </li>
                         <li><a class="nav-link" href="{{ route('list-transaksi') }}">Detail Laporan Penjualan</a>
                         </li>

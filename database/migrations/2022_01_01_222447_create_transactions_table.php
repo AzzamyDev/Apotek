@@ -24,9 +24,12 @@ class CreateTransactionsTable extends Migration
             $table->enum('tipe_bayar', ['Tunai', 'Non Tunai']);
             $table->enum('bayar', ['Debit', 'Gopay', 'Ovo', 'Dana', 'LinkAja', ' Qris', 'Lainnya'])->nullable();
             $table->string('pasien')->nullable();
+            $table->string('no_resep')->nullable();
             $table->integer('dokter_id')->nullable();
             $table->text('keterangan')->nullable();
             $table->bigInteger('total');
+            $table->bigInteger('diskon')->nullable();
+            $table->integer('voucher_id')->nullable();
             $table->bigInteger('jumlah_bayar')->nullable();
             $table->timestamps();
         });

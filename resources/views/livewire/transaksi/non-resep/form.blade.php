@@ -143,16 +143,70 @@
                                             @enderror
                                         </div>
                                     @endif
+                                    <div class="col-12">
+                                        <div class="input-group mt-2">
+                                            <select wire:model="pelayanan_id"
+                                                class="custom-select custom-select-sm @error('pelayanan_id') is-invalid @enderror"
+                                                id="inputGroupSelect04" aria-label="Pelayanan">
+                                                <option selected value="">Pilih Pelayanan...</option>
+                                                @foreach ($pelayanan as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append">
+                                                <input wire:model.defer='qty_p' style="width: 60px" type="number"
+                                                    class="form-control @error('qty_p') is-invalid @enderror"
+                                                    placeholder="Qty">
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button wire:click="addPelayanan" class="btn btn-sm btn-primary"
+                                                    type="button"><i class="fas fa-plus px-2"></i></button>
+                                            </div>
+                                        </div>
+                                        @error('qty_p')
+                                            <script>
+                                                show('{{ $message }}');
+                                            </script>
+                                        @enderror
+                                    </div>
                                 </div>
-                                <div class="section-title">Total</div>
-                                <div class=" row">
-                                    <div class="col-sm-12">
+                                <div class="section-title">Rincian</div>
+                                <div class="form-group row">
+                                    <label for="voucher" class="col-sm-4 col-form-label col-form-label text-nowrap">
+                                        Voucher
+                                    </label>
+                                    <div class="col-sm">
+                                        <input wire:model="voucher" autocomplete="off" type="text"
+                                            class="form-control form-control-sm text-right {{ $voucher_m != null ? 'is-valid' : '' }}"
+                                            id="voucher">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="diskon" class="col-sm-auto col-form-label col-form-label text-nowrap">
+                                        Total
+                                    </label>
+                                    <div class="col-sm">
+                                        <h5 class="text-right">@rupiah($total + $diskon)</h5>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="diskon" class="col-sm-auto col-form-label col-form-label text-nowrap">
+                                        Diskon
+                                    </label>
+                                    <div class="col-sm">
+                                        <h5 class="text-right">@rupiah($diskon)</h5>
+                                    </div>
+                                </div>
+                                <div class="section-title">Grand Total</div>
+                                <div class="form-group row">
+                                    <label for="diskon" class="col-sm-auto col-form-label col-form-label text-nowrap">
+                                    </label>
+                                    <div class="col-sm">
                                         <h5 class="text-right">@rupiah($total)</h5>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="biaya_lain"
-                                        class="col-sm-auto col-form-label col-form-label text-nowrap">
+                                    <label for="biaya_lain" class="col-sm-4 col-form-label col-form-label text-nowrap">
                                         Jumlah Bayar
                                     </label>
                                     <div class="col-sm">

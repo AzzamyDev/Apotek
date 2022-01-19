@@ -15,10 +15,12 @@ class CreateOrderOutTempsTable extends Migration
     {
         Schema::create('order_out_temps', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
+            $table->enum('jenis_order', ['product', 'racikan', 'pelayanan']);
+            $table->integer('product_id')->nullable();
+            $table->integer('racikan_id')->nullable();
             $table->string('nama_barang');
             $table->integer('qty');
-            $table->integer('jenis_harga_id');
+            $table->integer('jenis_harga_id')->nullable();
             $table->bigInteger('harga_beli');
             $table->bigInteger('harga_jual'); //+ppn
             $table->bigInteger('sub_total');

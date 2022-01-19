@@ -63,12 +63,23 @@
                                         <td class="text-left align-middle">
                                             @switch($item->record)
                                                 @case('In')
-                                                    <a href="{{ route('to-faktur', $item->no_faktur) }}">{{ $item->no_faktur }}
-                                                    </a>
+                                                    @if ($item->no_faktur != null)
+                                                        <a href="{{ route('to-faktur', $item->no_faktur) }}">{{ $item->no_faktur }}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('to-trx', $item->no_transaksi) }}">{{ $item->no_transaksi }}
+                                                        </a>
+                                                    @endif
                                                 @break
                                                 @case('Out')
-                                                    <a href="{{ route('to-trx', $item->no_transaksi) }}">{{ $item->no_transaksi }}
-                                                    </a>
+                                                    @if ($item->no_transaksi != null)
+                                                        <a
+                                                            href="{{ route('detail-transaksi-resep', $item->no_transaksi) }}">{{ $item->no_transaksi }}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('to-faktur', $item->no_faktur) }}">{{ $item->no_faktur }}
+                                                        </a>
+                                                    @endif
                                                 @break
                                                 @case('Koreksi')
                                                     @php

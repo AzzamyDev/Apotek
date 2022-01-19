@@ -22,11 +22,11 @@
     @endif
     <div class="section-body">
         <div class="container">
-            <div class="section-title">Data Transaksi</div>
             <div class="row">
-                <div class="col-7">
+                <div class="col-6">
+                    <div class="section-title">Data Transaksi</div>
                     <div class="row">
-                        <div class="col-sm-3 ">
+                        <div class="col-sm-4 ">
                             <h6>Tanggal</h6>
                         </div>
                         <div class="col-sm ">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3 ">
+                        <div class="col-sm-4 ">
                             <h6>Nomer Transaksi</h6>
                         </div>
                         <div class="col-sm ">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3 ">
+                        <div class="col-sm-4 ">
                             <h6>Tipe Transaksi</h6>
                         </div>
                         <div class="col-sm ">
@@ -51,7 +51,7 @@
                     </div>
                     @if ($transaksi->tipe_transaksi == 'Halodoc')
                         <div class="row">
-                            <div class="col-sm-3 ">
+                            <div class="col-sm-4 ">
                                 <h6>Customer</h6>
                             </div>
                             <div class="col-sm ">
@@ -60,7 +60,7 @@
                         </div>
                     @endif
                     <div class="row">
-                        <div class="col-sm-3 ">
+                        <div class="col-sm-4 ">
                             <h6>Cara Bayar</h6>
                         </div>
                         <div class="col-sm ">
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3 ">
+                        <div class="col-sm-4">
                             <h6>Bayar Via</h6>
                         </div>
                         <div class="col-sm ">
@@ -76,8 +76,27 @@
                             </h6>
                         </div>
                     </div>
+                </div>
+                <div class="col-6">
+                    <div class="section-title">Data Resep</div>
                     <div class="row">
-                        <div class="col-sm-3 ">
+                        <div class="col-sm-4 ">
+                            <h6>Nomer Resep</h6>
+                        </div>
+                        <div class="col-sm">
+                            <h6 class="text-left">: {{ $transaksi->no_resep }}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 ">
+                            <h6>Nama Pasien</h6>
+                        </div>
+                        <div class="col-sm ">
+                            <h6 class="text-left">: {{ $transaksi->pasien }}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 ">
                             <h6>Keterangan</h6>
                         </div>
                         <div class="col-sm ">
@@ -85,9 +104,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                <div class="col-6"></div>
             </div>
 
             <div class="row justify-content-center">
@@ -111,7 +127,19 @@
                                     @foreach ($list as $item)
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $item->nama_barang }}</td>
+                                            <td>
+                                                {{ $item->nama_barang }}
+                                                @if ($item->jenis_order == 'racikan')
+                                                    <ul>
+                                                        @foreach ($item->racikan->item as $val)
+                                                            <li><small><strong>{{ $val->product->name }}</strong>
+                                                                    ( {{ $val->qty }} x
+                                                                    @rupiah($val->harga_jual) =
+                                                                    @rupiah($val->sub_total) )</small></li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+                                            </td>
                                             <td>{{ $item->qty }}</td>
                                             <td>@rupiah( $item->harga_jual)</td>
                                             <td>{{ $item->jenisHarga->name }}</td>
@@ -135,8 +163,10 @@
                                                         </div>
                                                     </div>
                                                 @else
-                                                    <button wire:click.prevent='edit({{ $item->product_id }})'
-                                                        class="btn btn-sm btn-danger">Retur</button>
+                                                    @if ($item->jenis_order == 'product')
+                                                        <button wire:click.prevent='edit({{ $item->product_id }})'
+                                                            class="btn btn-sm btn-danger">Retur</button>
+                                                    @endif
                                                 @endif
                                             </td>
                                         </tr>

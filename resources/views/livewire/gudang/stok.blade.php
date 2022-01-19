@@ -53,8 +53,14 @@
                                         <td class="align-middle">{{ $item->satuan }}</td>
                                         <td class="align-middle">{{ $item->stok }}</td>
                                         <td class="align-middle">{{ $item->JenisHarga->name }}</td>
-                                        <td class="align-middle">@rupiah(($item->harga *
-                                            (1+($item->jenisHarga->persentase/100))) * 1.1)</td>
+                                        <td class="align-middle">
+                                            @if ($item->tipe_barang_id != 5)
+                                                @rupiah(($item->harga *
+                                                (1+($item->jenisHarga->persentase/100))) * 1.1)
+                                            @else
+                                                @rupiah($item->harga)
+                                            @endif
+                                        </td>
                                         <td class="align-middle">
                                             <a href="{{ route('record', $item->id) }}"
                                                 class="btn btn-outline-primary btn-sm btn-block">Kartu Stok</a>

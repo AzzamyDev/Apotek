@@ -38,7 +38,7 @@ class Form extends Component
             'name' => 'required',
         ]);
 
-        AturanPakai::updateOrCreate(['id' => $this->dokter_id], [
+        AturanPakai::updateOrCreate(['id' => $this->aturan_id], [
             'name' => $this->name,
         ]);
 
